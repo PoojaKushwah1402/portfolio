@@ -1,6 +1,6 @@
 # Portfolio
 
-My personal portfolio website built with React.
+Personal portfolio website.
 
 ## Setup
 
@@ -9,20 +9,12 @@ npm install
 npm start
 ```
 
-## Structure
-
-- `src/components/` - React components
-- `src/data/portfolio.js` - Skills and experience data
-- `src/App.css` - Styles
-
-## Deploy
+## Build
 
 ```bash
 npm run build
 ```
 
-Upload the `build` folder to any static hosting service.
+## Deploy
 
-## Contact
-
-Update your email, LinkedIn, and GitHub links in `src/components/Contact.js`
+Upload the `build` folder to any static hosting (Netlify, Vercel, etc.)
