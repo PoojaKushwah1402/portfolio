@@ -874,7 +874,7 @@ function App() {
                                 <div className="skill-header">
                                     <h3>{category}</h3>
                                     <span className="skill-count">
-                                        {items.length}
+                                        {/* {items.length} */}
                                     </span>
                                 </div>
                                 <div className="skill-items">
@@ -905,7 +905,7 @@ function App() {
 
                         <div className="contact-cards">
                             <a
-                                href="mailto:your.email@example.com"
+                                href="mailto:pookus7790@gmail.com"
                                 className="contact-card"
                             >
                                 <div className="contact-card-icon">📧</div>
@@ -914,13 +914,13 @@ function App() {
                                         Email
                                     </span>
                                     <span className="contact-card-value">
-                                        your.email@example.com
+                                        pookus7790@gmail.com
                                     </span>
                                 </div>
                                 <span className="contact-card-arrow">→</span>
                             </a>
                             <a
-                                href="https://linkedin.com/in/yourprofile"
+                                href="https://www.linkedin.com/in/pooja-kushwah-b22584137/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="contact-card"
@@ -937,7 +937,7 @@ function App() {
                                 <span className="contact-card-arrow">→</span>
                             </a>
                             <a
-                                href="https://github.com/yourusername"
+                                href="https://github.com/PoojaKushwah1402"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="contact-card"
@@ -957,7 +957,7 @@ function App() {
 
                         <div className="contact-cta">
                             <a
-                                href="mailto:your.email@example.com"
+                                href="mailto:pookus7790@gmail.com"
                                 className="btn-primary large"
                             >
                                 <span>Let's Talk</span>
