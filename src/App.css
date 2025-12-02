@@ -320,6 +320,44 @@ body {
     background: var(--thrill-glow);
 }
 
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 101;
+}
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 24px;
+}
+
+.hamburger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: var(--text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
 /* Theme Selector */
 .theme-selector {
     position: relative;
@@ -1254,23 +1292,177 @@ section.visible {
 
 @media (max-width: 768px) {
     section {
-        padding: 5rem 1.5rem;
+        padding: 4rem 1.25rem;
+    }
+    
+    .nav {
+        padding: 0.75rem 1rem;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
     }
     
     .nav-links {
         display: none;
+        position: fixed;
+        top: 56px;
+        left: 0;
+        right: 0;
+        height: auto;
+        min-height: calc(100vh - 56px);
+        background-color: var(--bg);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.5rem;
+        gap: 0.75rem;
+        z-index: 99;
+        animation: slideDown 0.3s ease;
+        overflow-y: auto;
+    }
+    
+    .nav-links.mobile-open {
+        display: flex !important;
+        background-color: var(--bg);
+    }
+    
+    /* Ensure solid background on mobile menu */
+    body.dark-theme .nav-links.mobile-open {
+        background-color: #0c0c0c;
+    }
+    
+    body.light-theme .nav-links.mobile-open {
+        background-color: #fafafa;
+    }
+    
+    .nav-links .nav-link {
+        display: block;
+        width: 100%;
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+        text-align: left;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface);
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .nav-link {
+        padding: 1rem;
+        font-size: 1.1rem;
+        text-align: center;
+        border-radius: 12px;
+    }
+    
+    .theme-selector {
+        margin-left: 0;
+        margin-top: 1rem;
+        width: 100%;
+    }
+    
+    .theme-toggle {
+        width: 100%;
+        justify-content: center;
+        padding: 1rem;
+    }
+    
+    .theme-dropdown {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 300px;
+        max-height: 70vh;
+    }
+    
+    .logo {
+        font-size: 1.1rem;
+    }
+    
+    .logo-icon {
+        font-size: 1.5rem;
     }
     
     .section-header {
         flex-wrap: wrap;
     }
     
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
     .header-line {
         display: none;
     }
     
+    .hero {
+        min-height: auto;
+        padding-top: 6rem;
+        padding-bottom: 3rem;
+    }
+    
+    .hero-line.small {
+        font-size: 1.25rem;
+    }
+    
+    .hero-line.big {
+        font-size: 2rem;
+    }
+    
+    .hero-desc {
+        font-size: 1rem;
+    }
+    
     .hero-cta {
         flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .btn-primary, .btn-ghost {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .thrill-meter {
+        padding: 1rem;
+    }
+    
+    .meter-stats {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    
+    .stat {
+        flex: 1 1 45%;
+    }
+    
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .about-card {
+        padding: 1.25rem;
+    }
+    
+    .card-stats {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .stat-item {
+        flex: 1 1 45%;
     }
     
     .journey-stop {
@@ -1289,15 +1481,82 @@ section.visible {
     
     .stop-content {
         margin-bottom: 1.5rem;
+        padding: 1.25rem;
     }
     
-    .card-stats {
-        flex-wrap: wrap;
-        gap: 1.5rem;
+    .stop-role {
+        font-size: 1.25rem;
+    }
+    
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .skill-box {
+        padding: 1.25rem;
+    }
+    
+    .skill-items {
+        gap: 0.5rem;
+    }
+    
+    .skill-tag {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.75rem;
+    }
+    
+    .contact-cards {
+        flex-direction: column;
+    }
+    
+    .contact-card {
+        padding: 1rem;
     }
     
     .coaster-track-container {
         display: none;
+    }
+    
+    .speed-lines {
+        display: none;
+    }
+    
+    .footer {
+        padding: 2rem 1rem;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+    section {
+        padding: 3rem 1rem;
+    }
+    
+    .hero-line.big {
+        font-size: 1.75rem;
+    }
+    
+    .hero-badge {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .about-card {
+        padding: 1rem;
+    }
+    
+    .stat-item {
+        flex: 1 1 100%;
+    }
+    
+    .hobby-list {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .stop-highlights li {
+        font-size: 0.9rem;
     }
 }
 

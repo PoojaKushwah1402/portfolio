@@ -232,6 +232,7 @@ function App() {
     const [scrollProgress, setScrollProgress] = useState(0);
     const [currentTheme, setCurrentTheme] = useState("classic");
     const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const cartRef = useRef(null);
 
     // Apply theme to CSS variables
@@ -535,7 +536,29 @@ function App() {
                         <span className="logo-icon">🎢</span>
                         <span className="logo-text">Thrill.Dev</span>
                     </a>
-                    <div className="nav-links">
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        className="mobile-menu-btn"
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        <span
+                            className={`hamburger ${
+                                mobileMenuOpen ? "open" : ""
+                            }`}
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </button>
+
+                    <div
+                        className={`nav-links ${
+                            mobileMenuOpen ? "mobile-open" : ""
+                        }`}
+                    >
                         {["about", "journey", "skills", "contact"].map(
                             (item) => (
                                 <button
@@ -547,13 +570,14 @@ function App() {
                                             ? "active"
                                             : ""
                                     }`}
-                                    onClick={() =>
+                                    onClick={() => {
                                         scrollTo(
                                             item === "journey"
                                                 ? "experience"
                                                 : item
-                                        )
-                                    }
+                                        );
+                                        setMobileMenuOpen(false);
+                                    }}
                                 >
                                     {item}
                                 </button>
