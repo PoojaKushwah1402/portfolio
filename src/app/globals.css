@@ -11,44 +11,80 @@
 html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
-  scrollbar-color: #222 #0c0c0c;
+  scrollbar-color: #1E1E22 #0A0A0C;
 }
 
 body {
-  background-color: #0c0c0c;
-  color: #e8e4de;
+  background-color: #0A0A0C;
+  color: #E8E2DA;
   overflow-x: hidden;
 }
 
 ::selection {
-  background-color: rgba(255, 51, 51, 0.25);
-  color: #e8e4de;
+  background-color: rgba(196, 161, 66, 0.3);
+  color: #E8E2DA;
 }
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #0c0c0c; }
-::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #0A0A0C; }
+::-webkit-scrollbar-thumb { background: #1E1E22; border-radius: 3px; }
 
-/* ── Grain ── */
-.grain::before {
+/* ── Status pulse ── */
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+.status-pulse {
+  position: relative;
+}
+
+.status-pulse::after {
   content: '';
-  position: fixed;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  animation: grain 8s steps(10) infinite;
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #3DB06C;
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+/* ── Gold glow line on glass cards ── */
+.gold-glow-top {
+  position: relative;
+}
+
+.gold-glow-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196, 161, 66, 0.3), transparent);
+  border-radius: 1px;
+}
+
+/* ── Vertical ghost text ── */
+.ghost-text-vertical {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: rotate(-90deg) translateX(-50%);
+  transform-origin: left center;
+  font-size: 42px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.03);
+  white-space: nowrap;
   pointer-events: none;
-  z-index: 100;
-  opacity: 0.4;
+  user-select: none;
 }
 
-/* ── Spacing ── */
-.section-padding {
-  @apply px-6 md:px-12 lg:px-20 xl:px-28;
-}
-
-/* ── Divider ── */
-.divider {
-  @apply w-full h-px bg-border;
+/* ── Small vertical label ── */
+.vertical-label {
+  writing-mode: vertical-rl;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.12);
+  text-transform: uppercase;
 }

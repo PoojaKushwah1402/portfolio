@@ -1,54 +1,30 @@
 import type { Metadata } from 'next'
-import { DM_Sans, JetBrains_Mono } from 'next/font/google'
-import localFont from 'next/font/local'
+import { Be_Vietnam_Pro, Space_Mono } from 'next/font/google'
 import './globals.css'
 
-const instrumentSerif = localFont({
-  src: [
-    {
-      path: '../fonts/InstrumentSerif-Regular.ttf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../fonts/InstrumentSerif-Italic.ttf',
-      weight: '400',
-      style: 'italic',
-    },
-  ],
-  variable: '--font-instrument-serif',
-  display: 'swap',
-  fallback: ['Georgia', 'serif'],
-})
-
-const dmSans = DM_Sans({
+const vietnam = Be_Vietnam_Pro({
   subsets: ['latin'],
-  variable: '--font-dm-sans',
+  weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-vietnam',
   display: 'swap',
 })
 
-const jetbrainsMono = JetBrains_Mono({
+const spaceMono = Space_Mono({
   subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
+  weight: ['400', '700'],
+  variable: '--font-space-mono',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
   title: 'Pooja Kushwah — Co-Founder & Technical Lead',
   description:
-    'I build products that ship, systems that scale, and companies that last. Co-Founder & Technical Lead with 6+ years shipping production systems across AI, full-stack, cloud, and e-commerce.',
-  keywords: [
-    'Pooja Kushwah',
-    'Technical Lead',
-    'Co-Founder',
-    'Full Stack Engineer',
-    'Macro Rides',
-  ],
+    'Co-Founder at Macro Rides. 6+ years building AI-driven products, scalable platforms, and cloud infrastructure.',
+  keywords: ['Pooja Kushwah', 'Technical Lead', 'Co-Founder', 'Macro Rides'],
   authors: [{ name: 'Pooja Kushwah' }],
   openGraph: {
     title: 'Pooja Kushwah — Co-Founder & Technical Lead',
-    description:
-      'I build products that ship, systems that scale, and companies that last.',
+    description: 'Co-Founder at Macro Rides. 6+ years building AI-driven products, scalable platforms, and cloud infrastructure.',
     url: 'https://poojakushwah.com',
     siteName: 'Pooja Kushwah',
     locale: 'en_US',
@@ -57,8 +33,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Pooja Kushwah — Co-Founder & Technical Lead',
-    description:
-      'I build products that ship, systems that scale, and companies that last.',
+    description: 'Co-Founder at Macro Rides. 6+ years building AI-driven products, scalable platforms, and cloud infrastructure.',
   },
   robots: { index: true, follow: true },
 }
@@ -69,11 +44,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="en"
-      className={`${instrumentSerif.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
-    >
-      <body className="font-sans bg-bg text-text-primary antialiased grain">
+    <html lang="en" suppressHydrationWarning className={`${vietnam.variable} ${spaceMono.variable}`}>
+      <body suppressHydrationWarning className="font-primary bg-page text-txt-primary antialiased">
         {children}
       </body>
     </html>
