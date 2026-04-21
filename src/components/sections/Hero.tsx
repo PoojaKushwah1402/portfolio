@@ -119,7 +119,7 @@ export default function Hero() {
                                     duration: 0.6,
                                     ease: [0.16, 1, 0.3, 1]
                                 }}
-                                className="absolute inset-0 font-display italic font-bold text-[19px] md:text-[24px] text-warm leading-[32px] whitespace-nowrap"
+                                className="absolute inset-0 font-display italic font-bold text-[19px] md:text-[24px] text-[#A8722A] leading-[32px] whitespace-nowrap"
                             >
                                 {currently[idx]}
                             </motion.span>

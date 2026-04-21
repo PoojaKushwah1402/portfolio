@@ -103,7 +103,7 @@ export default function OffTheClock() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.5 }}
-          className="flex items-center gap-2.5 md:gap-3 mb-3 md:mb-4"
+          className="flex items-center gap-2.5 md:gap-3 mb-6 md:mb-8"
         >
           <span className="block w-10 md:w-12 h-[2px] bg-accent rounded-full" />
           <span className="font-display italic text-[13px] md:text-[14px] text-ink/50 tabular-nums leading-none">
