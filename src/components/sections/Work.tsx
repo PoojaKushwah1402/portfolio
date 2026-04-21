@@ -77,11 +77,15 @@ export default function Work() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.5 }}
-          className="flex items-baseline gap-3 mb-6"
+          className="flex items-center gap-2.5 md:gap-3 mb-3 md:mb-4"
         >
-          <div className="h-px w-8 bg-accent" />
-          <span className="font-display italic text-[15px] text-accent lowercase">
-            selected rides.
+          <span className="block w-10 md:w-12 h-[2px] bg-accent rounded-full" />
+          <span className="font-display italic text-[13px] md:text-[14px] text-ink/50 tabular-nums leading-none">
+            02
+          </span>
+          <span className="block w-1 h-1 rounded-full bg-accent" />
+          <span className="font-display italic text-[19px] md:text-[22px] text-accent lowercase leading-none">
+            the work so far.
           </span>
         </motion.div>
 

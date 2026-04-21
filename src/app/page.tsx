@@ -3,7 +3,7 @@ import SmoothScroll from '@/components/layout/SmoothScroll'
 import SvgFilters from '@/components/layout/SvgFilters'
 import LoadingScreen from '@/components/layout/LoadingScreen'
 import Cursor from '@/components/ui/Cursor'
-import Nav from '@/components/layout/Nav'
+import SideRail from '@/components/layout/SideRail'
 import Hero from '@/components/sections/Hero'
 import Marquee from '@/components/sections/Marquee'
 import About from '@/components/sections/About'
@@ -20,7 +20,7 @@ export default function Home() {
       <SmoothScroll />
       <LoadingScreen />
       <Cursor />
-      <Nav />
+      <SideRail />
       <main id="top" className="relative z-10">
         <Hero />
         <Marquee />

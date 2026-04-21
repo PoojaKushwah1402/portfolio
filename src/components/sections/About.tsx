@@ -8,8 +8,8 @@ const timeline = [
   { year: '2019', label: 'Amdocs', detail: 'Telecom, CRM, billing' },
   { year: '2021', label: 'Bridgei2i', detail: 'Analytics dashboards' },
   { year: '2022', label: 'group.one', detail: 'European e-commerce' },
-  { year: '2024', label: 'Macro Rides', detail: 'Co-founder & CTO' },
-  { year: '2025', label: 'Livjaza', detail: 'Senior FS' },
+  { year: '2024', label: 'Macro Rides', detail: 'Co-founder & CTO', current: true },
+  { year: '2025', label: 'Livjaza', detail: 'Senior FS', current: true },
 ]
 
 const stats = [
@@ -29,11 +29,15 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5 }}
-            className="flex items-baseline gap-3 mb-6"
+            className="flex items-center gap-2.5 md:gap-3 mb-3 md:mb-4"
           >
-            <div className="h-px w-8 bg-accent" />
-            <span className="font-display italic text-[15px] text-accent lowercase">
-              about the driver.
+            <span className="block w-10 md:w-12 h-[2px] bg-accent rounded-full" />
+            <span className="font-display italic text-[13px] md:text-[14px] text-ink/50 tabular-nums leading-none">
+              01
+            </span>
+            <span className="block w-1 h-1 rounded-full bg-accent" />
+            <span className="font-display italic text-[19px] md:text-[22px] text-accent lowercase leading-none">
+              the driver.
             </span>
           </motion.div>
 
@@ -66,8 +70,9 @@ export default function About() {
                 in Delhi.
               </p>
               <p>
-                I picked up <span className="text-ink font-semibold">Go and Django</span>{' '}
-                at Livjaza on the job. Not because I knew them. Because someone had to.
+                At Livjaza I own production work in{' '}
+                <span className="text-ink font-semibold">Go and Django</span>,{' '}
+                picked up independently while delivering.
                 At Macro Rides I write the rider app, argue with Cashfree support,
                 interview candidates, and pitch investors. CTO is a job title that means{' '}
                 <em className="font-display text-[17px] md:text-[18px]">does everything</em>.
@@ -137,15 +142,23 @@ export default function About() {
                     className="relative"
                   >
                     <div className="relative mb-4 h-5">
-                      <motion.div
-                        animate={{
-                          scale: [1, 1.8, 1],
-                          opacity: [0.6, 0, 0.6],
-                        }}
-                        transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.3 }}
-                        className="absolute top-0 left-0 w-5 h-5 bg-accent rounded-full"
+                      {t.current && (
+                        <motion.div
+                          animate={{
+                            scale: [1, 1.8, 1],
+                            opacity: [0.6, 0, 0.6],
+                          }}
+                          transition={{ duration: 2.5, repeat: Infinity }}
+                          className="absolute top-0 left-0 w-5 h-5 bg-accent rounded-full"
+                        />
+                      )}
+                      <div
+                        className={`relative w-3 h-3 rounded-full ${
+                          t.current
+                            ? 'bg-accent ring-2 ring-accent/30 blob'
+                            : 'bg-ink/25'
+                        }`}
                       />
-                      <div className="relative w-3 h-3 bg-accent rounded-full blob" />
                     </div>
 
                     <div className="font-display italic text-[14px] text-accent mb-1">
