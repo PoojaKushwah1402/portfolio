@@ -26,8 +26,8 @@ export default function Home() {
         <Marquee />
         <About />
         <Work />
-        <OffTheClock />
         <Stack />
+        <OffTheClock />
         <Contact />
       </main>
     </>

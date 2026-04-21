@@ -108,12 +108,14 @@ export default function RollercoasterScene() {
     >
       <Suspense fallback={null}>
         <color attach="background" args={['#FEFAF0']} />
-        <fog attach="fog" args={['#FEFAF0', 14, 38]} />
+        <fog attach="fog" args={['#FEFAF0', 18, 46]} />
 
-        <ambientLight intensity={1.1} />
-        <directionalLight position={[8, 12, 6]} intensity={0.8} />
-        <pointLight position={[-8, 4, 3]} intensity={0.5} color="#D9953A" />
-        <pointLight position={[6, 2, -6]} intensity={0.4} color="#0E7C86" />
+        <hemisphereLight args={['#FFFCF6', '#F0E5CA', 1.1]} />
+        <ambientLight intensity={0.75} />
+        <directionalLight position={[8, 14, 6]} intensity={1.3} color="#FFF6E0" />
+        <directionalLight position={[-6, 8, -4]} intensity={0.5} color="#E8F4F6" />
+        <pointLight position={[-8, 4, 3]} intensity={0.7} color="#D9953A" />
+        <pointLight position={[6, 2, -6]} intensity={0.55} color="#2FA0AA" />
 
         <CameraRig progressRef={progressRef} mouseRef={mouseRef} />
         <Rollercoaster progressRef={progressRef} />

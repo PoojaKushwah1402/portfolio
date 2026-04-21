@@ -39,11 +39,11 @@ export default function Rollercoaster({ progressRef }: RollercoasterProps) {
 
   const supports = useMemo(() => {
     const items: { position: [number, number, number]; height: number }[] = []
-    const n = 42
+    const n = 20
     for (let i = 0; i < n; i++) {
       const t = i / n
       const p = curve.getPointAt(t)
-      if (p.y > 0.05) {
+      if (p.y > 0.6) {
         items.push({
           position: [p.x, p.y / 2 - 1, p.z],
           height: p.y + 2,
@@ -90,53 +90,64 @@ export default function Rollercoaster({ progressRef }: RollercoasterProps) {
         <meshStandardMaterial color="#FEFAF0" />
       </mesh>
 
-      {/* Track main */}
+      {/* Track main — bright pacific teal */}
       <mesh geometry={trackGeo}>
         <meshStandardMaterial
-          color="#0E7C86"
-          metalness={0.7}
-          roughness={0.25}
+          color="#2FA0AA"
+          emissive="#0E7C86"
+          emissiveIntensity={0.15}
+          metalness={0.55}
+          roughness={0.3}
         />
       </mesh>
 
-      {/* Inner accent rail */}
+      {/* Inner accent rail — warm gold */}
       <mesh geometry={innerGeo}>
         <meshStandardMaterial
-          color="#D9953A"
-          metalness={0.5}
+          color="#E8A94A"
+          emissive="#D9953A"
+          emissiveIntensity={0.25}
+          metalness={0.45}
           roughness={0.35}
         />
       </mesh>
 
-      {/* Support pillars */}
+      {/* Support pillars — slim, darker for contrast against cream */}
       {supports.map((s, i) => (
         <mesh key={i} position={s.position}>
-          <cylinderGeometry args={[0.06, 0.06, s.height, 6]} />
-          <meshStandardMaterial color="#5A4A38" metalness={0.25} roughness={0.7} />
+          <cylinderGeometry args={[0.035, 0.035, s.height, 6]} />
+          <meshStandardMaterial
+            color="#5E5240"
+            metalness={0.2}
+            roughness={0.75}
+            transparent
+            opacity={0.9}
+          />
         </mesh>
       ))}
 
       {/* Cart train */}
       <group ref={cartRef}>
-        {/* Lead cart */}
+        {/* Lead cart — cream chassis with teal body */}
         <mesh>
           <boxGeometry args={[0.55, 0.18, 0.8]} />
-          <meshStandardMaterial color="#1A1008" metalness={0.85} roughness={0.25} />
+          <meshStandardMaterial color="#1F2530" metalness={0.5} roughness={0.35} />
         </mesh>
         <mesh position={[0, 0.22, 0]}>
           <boxGeometry args={[0.48, 0.24, 0.7]} />
-          <meshStandardMaterial color="#064A52" metalness={0.75} roughness={0.2} />
+          <meshStandardMaterial color="#0E7C86" metalness={0.55} roughness={0.25} />
         </mesh>
         <mesh position={[0, 0.38, 0]}>
           <boxGeometry args={[0.42, 0.06, 0.62]} />
-          <meshStandardMaterial color="#0E7C86" metalness={0.8} roughness={0.15} />
+          <meshStandardMaterial color="#2FA0AA" metalness={0.7} roughness={0.2} />
         </mesh>
+        {/* Headlight */}
         <mesh position={[0, 0.22, 0.4]}>
-          <sphereGeometry args={[0.06, 12, 12]} />
+          <sphereGeometry args={[0.07, 14, 14]} />
           <meshStandardMaterial
-            color="#D9953A"
+            color="#FFE8B8"
             emissive="#D9953A"
-            emissiveIntensity={1.4}
+            emissiveIntensity={2.2}
           />
         </mesh>
         {[
@@ -151,23 +162,23 @@ export default function Rollercoaster({ progressRef }: RollercoasterProps) {
             rotation={[0, 0, Math.PI / 2]}
           >
             <cylinderGeometry args={[0.08, 0.08, 0.05, 16]} />
-            <meshStandardMaterial color="#0A0604" metalness={0.7} roughness={0.3} />
+            <meshStandardMaterial color="#1F2530" metalness={0.6} roughness={0.35} />
           </mesh>
         ))}
 
-        {/* Trailing carts */}
+        {/* Trailing carts — alternate warm gold and teal */}
         {[1, 2].map((n) => (
           <group key={n} position={[0, 0, -n * 0.95]}>
             <mesh>
               <boxGeometry args={[0.52, 0.16, 0.7]} />
-              <meshStandardMaterial color="#1A1008" metalness={0.85} roughness={0.25} />
+              <meshStandardMaterial color="#1F2530" metalness={0.5} roughness={0.35} />
             </mesh>
             <mesh position={[0, 0.2, 0]}>
               <boxGeometry args={[0.45, 0.22, 0.62]} />
               <meshStandardMaterial
-                color={n === 1 ? '#0E7C86' : '#D9953A'}
-                metalness={0.75}
-                roughness={0.2}
+                color={n === 1 ? '#D9953A' : '#0E7C86'}
+                metalness={0.55}
+                roughness={0.25}
               />
             </mesh>
           </group>

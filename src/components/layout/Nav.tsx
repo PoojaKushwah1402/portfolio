@@ -6,8 +6,8 @@ import { motion } from 'framer-motion'
 const links = [
   { label: 'Work', href: '#work', id: 'work' },
   { label: 'About', href: '#about', id: 'about' },
-  { label: 'Play', href: '#play', id: 'play' },
   { label: 'Stack', href: '#stack', id: 'stack' },
+  { label: 'Play', href: '#play', id: 'play' },
   { label: 'Contact', href: '#contact', id: 'contact' },
 ]
 
@@ -22,7 +22,7 @@ export default function Nav() {
   }, [])
 
   useEffect(() => {
-    const ids = ['hero', 'about', 'work', 'play', 'stack', 'contact']
+    const ids = ['hero', 'about', 'work', 'stack', 'play', 'contact']
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
