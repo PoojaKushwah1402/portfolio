@@ -1,3 +1,6 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource/dm-serif-display';
+@import '@fontsource/dm-serif-display/400-italic.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,83 +11,83 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: #1E1E22 #0A0A0C;
+html, body {
+  overflow-x: hidden;
+  min-height: 100vh;
+  color: #0A1014;
 }
 
 body {
-  background-color: #0A0A0C;
-  color: #E8E2DA;
-  overflow-x: hidden;
+  font-family: 'Inter Variable', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  background:
+    radial-gradient(1200px ellipse at 90% -10%, rgba(217, 149, 58, 0.12), transparent 55%),
+    radial-gradient(900px ellipse at -10% 110%, rgba(14, 124, 134, 0.1), transparent 55%),
+    #FEFAF0;
+  background-attachment: fixed;
 }
 
 ::selection {
-  background-color: rgba(196, 161, 66, 0.3);
-  color: #E8E2DA;
+  background-color: rgba(14, 124, 134, 0.25);
+  color: #0A1014;
 }
 
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #0A0A0C; }
-::-webkit-scrollbar-thumb { background: #1E1E22; border-radius: 3px; }
-
-/* ── Status pulse ── */
-@keyframes pulse-ring {
-  0% { transform: scale(1); opacity: 0.6; }
-  100% { transform: scale(2.5); opacity: 0; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #0E7C86;
+  border-radius: 3px;
 }
 
-.status-pulse {
-  position: relative;
-}
-
-.status-pulse::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: #3DB06C;
-  animation: pulse-ring 1.5s ease-out infinite;
-}
-
-/* ── Gold glow line on glass cards ── */
-.gold-glow-top {
-  position: relative;
-}
-
-.gold-glow-top::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(196, 161, 66, 0.3), transparent);
-  border-radius: 1px;
-}
-
-/* ── Vertical ghost text ── */
-.ghost-text-vertical {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: rotate(-90deg) translateX(-50%);
-  transform-origin: left center;
-  font-size: 42px;
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.03);
-  white-space: nowrap;
-  pointer-events: none;
+/* Decorative small labels unselectable */
+.font-mono,
+[class*="tracking-[0.2"],
+[class*="tracking-[0.25"],
+[class*="tracking-[0.3"] {
   user-select: none;
+  -webkit-user-select: none;
 }
 
-/* ── Small vertical label ── */
-.vertical-label {
-  writing-mode: vertical-rl;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.12);
-  text-transform: uppercase;
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+@media (hover: hover) and (pointer: fine) {
+  * { cursor: none !important; }
+}
+@media (hover: none), (pointer: coarse) {
+  .custom-cursor { display: none !important; }
+}
+
+/* ── Marquee ── */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee-scroll 40s linear infinite; }
+.marquee-container:hover .marquee-track { animation-duration: 80s; }
+
+/* ── SVG text distortion ── */
+.distort { filter: url(#distort); transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.distort:hover { filter: url(#distort-strong); }
+
+/* ── Blob morph ── */
+@keyframes blob-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); border-radius: 50%; }
+  33% { transform: scale(1.15) rotate(30deg); border-radius: 45% 55% 60% 40% / 50% 45% 55% 50%; }
+  66% { transform: scale(0.92) rotate(-20deg); border-radius: 55% 45% 40% 60% / 45% 55% 45% 55%; }
+}
+.blob { animation: blob-pulse 6s ease-in-out infinite; }
+
+@keyframes rotate-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.rotate-slow { animation: rotate-slow 20s linear infinite; }
+
+main, header { position: relative; z-index: 10; }
+
+canvas {
+  display: block;
+  touch-action: none;
 }

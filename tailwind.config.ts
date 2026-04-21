@@ -1,44 +1,34 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
-        page: '#0A0A0C',
-        card: '#131316',
-        cream: {
-          bg: '#F0EBE3',
-          text: '#1A1917',
-          muted: '#8A8578',
+        // Pearl + Pacific Teal — lighter, fresher
+        bg: '#FEFAF0',          // near-white with a warm hint
+        cream: '#FFFCF6',
+        'cream-dark': '#F0E5CA',
+        ink: '#0A1014',         // cool near-black
+        'ink-soft': '#1F2530',
+        muted: '#6B7280',
+        subtle: '#C4B894',
+        accent: {
+          DEFAULT: '#0E7C86',   // pacific teal
+          light: '#2FA0AA',
+          deep: '#064A52',
+          dim: 'rgba(14, 124, 134, 0.1)',
+          glow: 'rgba(14, 124, 134, 0.3)',
         },
-        gold: {
-          DEFAULT: '#C4A142',
-          light: '#D4B45A',
-          dark: '#B8932E',
-        },
-        txt: {
-          primary: '#E8E2DA',
-          secondary: '#7A7871',
-          muted: '#5A5850',
-          hint: '#4A4840',
-          body: '#9A9590',
-        },
-        status: '#3DB06C',
-        'card-border': 'rgba(255,255,255,0.04)',
-        'glass-border': 'rgba(255,255,255,0.07)',
-        'glass-bg': 'rgba(255,255,255,0.04)',
+        warm: '#D9953A',
+        olive: '#5E7D3C',
+        plum: '#4A2F4D',
+        ember: '#C8502E',
       },
       fontFamily: {
-        primary: ['var(--font-vietnam)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-space-mono)', 'monospace'],
-      },
-      borderRadius: {
-        card: '16px',
-        btn: '8px',
-        pill: '12px',
+        display: ['"DM Serif Display"', 'Georgia', 'Cambria', 'Times', 'serif'],
+        sans: ['"Inter Variable"', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
     },
   },
