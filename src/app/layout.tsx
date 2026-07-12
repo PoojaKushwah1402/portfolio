@@ -85,6 +85,7 @@ const personJsonLd = {
   sameAs: [
     'https://www.linkedin.com/in/poojakushwah1402/',
     'https://github.com/PoojaKushwah1402',
+    'https://www.instagram.com/pjk1402/',
   ],
   email: 'mailto:pookus7790@gmail.com',
 }

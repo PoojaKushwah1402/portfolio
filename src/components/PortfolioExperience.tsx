@@ -584,7 +584,7 @@ function MailIcon() {
 const SOCIALS: { label: string; handle: string; href: string; Icon: () => React.JSX.Element }[] = [
   { label: 'LinkedIn', handle: 'poojakushwah1402', href: 'https://www.linkedin.com/in/poojakushwah1402/', Icon: LinkedInIcon },
   { label: 'GitHub', handle: 'PoojaKushwah1402', href: 'https://github.com/PoojaKushwah1402', Icon: GitHubIcon },
-  { label: 'Instagram', handle: '@pooja', href: 'https://www.instagram.com/', Icon: InstagramIcon },
+  { label: 'Instagram', handle: '@pjk1402', href: 'https://www.instagram.com/pjk1402/', Icon: InstagramIcon },
   { label: 'Email', handle: 'pookus7790@gmail.com', href: 'mailto:pookus7790@gmail.com', Icon: MailIcon },
 ]
 

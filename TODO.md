@@ -22,6 +22,15 @@
 ## Content (for Claude, whenever ready)
 
 - [ ] Real photos for the "off the clock" wall (replace stock)
-- [ ] Instagram handle for the contact section (currently placeholder)
-- [ ] Slack quick-chat webhook for the message composer (needs a small API route + webhook URL)
+- [x] Instagram handle for the contact section (@pjk1402 — done)
 - [ ] Google Search Console verification meta token (if DNS verification is annoying)
+
+## Slack integration — quick-chat from the portfolio
+
+Goal: visitor types in the "Quick message" composer → message pops into Pooja's Slack.
+
+- [ ] Pooja: create a Slack **incoming webhook** (Slack → Apps → Incoming Webhooks → pick channel, e.g. `#personal` `C0B7AL04A3E`) and share the webhook URL with Claude
+- [ ] Claude: add a tiny serverless endpoint that forwards `{message, email}` to the webhook (webhook URL stays server-side, never in the browser)
+  - Note: the site is `output: 'export'` (static) — no Next API routes on this host. Options: a Vercel/Cloudflare serverless function on a small subdomain, or switch hosting to Vercel and drop `output: export`
+- [ ] Claude: swap the composer's `mailto:` submit for a `fetch()` to that endpoint (keep mailto as fallback on error)
+- [ ] Later (optional): phone number + WhatsApp quick-link alongside
