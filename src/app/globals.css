@@ -67,6 +67,44 @@ body::after {
 /* ── Marquee scroll ── */
 @keyframes pk-marquee { to { transform: translateX(-50%); } }
 
+/* ── Play gallery: 1:1 mimic of the reference wall — full-width, 4 big square columns, cols 2 & 4 dropped ~55% ── */
+.play-mosaic {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(26px, 2.6vw, 44px) clamp(24px, 2.2vw, 38px);
+  max-width: 1460px;
+  margin: clamp(28px, 5vh, 60px) auto 0;
+  padding-bottom: clamp(190px, 25vh, 280px); /* room for the dropped columns */
+}
+.play-mosaic > div { aspect-ratio: 1 / 1.03; }
+.play-mosaic > div:nth-child(4n + 2), .play-mosaic > div:nth-child(4n) { transform: translateY(55%); }
+
+@media (max-width: 1100px) {
+  .play-mosaic { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .play-mosaic > div:nth-child(4n + 2), .play-mosaic > div:nth-child(4n) { transform: none; }
+  .play-mosaic > div:nth-child(even) { transform: translateY(55%); }
+}
+@media (max-width: 640px) {
+  .play-mosaic { grid-template-columns: 1fr; padding-bottom: 40px; }
+  .play-mosaic > div:nth-child(even), .play-mosaic > div:nth-child(4n + 2), .play-mosaic > div:nth-child(4n) { transform: none; }
+}
+
+/* ── Quick-message inputs ── */
+.pk-input {
+  width: 100%;
+  background: rgba(234, 238, 243, 0.05);
+  border: 1px solid rgba(234, 238, 243, 0.16);
+  border-radius: 12px;
+  color: #EAEEF3;
+  font-family: 'Inter Variable', system-ui, sans-serif;
+  font-size: 14px;
+  padding: 13px 15px;
+  transition: border-color 0.25s, background 0.25s;
+  resize: none;
+}
+.pk-input::placeholder { color: rgba(234, 238, 243, 0.38); }
+.pk-input:focus { outline: none; border-color: #22B8E6; background: rgba(234, 238, 243, 0.07); }
+
 /* ── Status dot pulse ── */
 @keyframes status-pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
