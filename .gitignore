@@ -30,4 +30,25 @@ yarn-error.log*
 next-env.d.ts
 
 
+# temp
 tmp
+
+# AI assistant tooling (created by the "UI/UX Pro Max" installer)
+.agents/
+.augment/
+.claude/
+.codebuddy/
+.codex/
+.continue/
+.cursor/
+.factory/
+.gemini/
+.github/
+.kilocode/
+.kiro/
+.opencode/
+.qoder/
+.roo/
+.trae/
+.warp/
+.windsurf/
