@@ -14,7 +14,6 @@ const disp = "'Anton', 'Arial Narrow', sans-serif"
 const grot = "'Space Grotesk Variable', 'Inter Variable', sans-serif"
 const sans = "'Inter Variable', system-ui, sans-serif"
 const ease = [0.16, 1, 0.3, 1] as const
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t
 const MEGA: React.CSSProperties = { fontFamily: disp, textTransform: 'uppercase', letterSpacing: '-0.005em', lineHeight: 0.84, margin: 0, fontWeight: 400 }
 const label: React.CSSProperties = { fontFamily: grot, fontWeight: 600, fontSize: 12, letterSpacing: '0.22em', textTransform: 'uppercase' }
 
@@ -159,31 +158,6 @@ function LinkedInIcon() {
 }
 function GitHubIcon() {
   return (<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58l-.01-2.03c-3.34.72-4.04-1.62-4.04-1.62-.55-1.38-1.34-1.75-1.34-1.75-1.08-.75.09-.73.09-.73 1.2.08 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5.99.1-.78.42-1.3.76-1.6-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.82 1.1.82 2.22l-.01 3.29c0 .32.21.7.82.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg>)
-}
-
-/* ─── custom cursor ─── */
-function Cursor() {
-  const dot = useRef<HTMLDivElement>(null)
-  const ring = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    let mx = 0, my = 0, rx = 0, ry = 0, hover = false, raf = 0
-    const move = (e: MouseEvent) => { mx = e.clientX; my = e.clientY; hover = !!(e.target as HTMLElement).closest('a,button,[data-hover]') }
-    const loop = () => {
-      rx = lerp(rx, mx, 0.2); ry = lerp(ry, my, 0.2)
-      if (dot.current) dot.current.style.transform = `translate(${mx - 3}px,${my - 3}px)`
-      if (ring.current) { ring.current.style.transform = `translate(${rx - 18}px,${ry - 18}px) scale(${hover ? 1.8 : 1})`; ring.current.style.opacity = hover ? '1' : '0.4' }
-      raf = requestAnimationFrame(loop)
-    }
-    raf = requestAnimationFrame(loop)
-    window.addEventListener('mousemove', move, { passive: true })
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('mousemove', move) }
-  }, [])
-  return (
-    <>
-      <div ref={ring} className="custom-cursor" style={{ position: 'fixed', top: 0, left: 0, width: 36, height: 36, borderRadius: 999, border: `1.5px solid ${ACCENT}`, pointerEvents: 'none', zIndex: 200, transition: 'opacity .3s' }} />
-      <div ref={dot} className="custom-cursor" style={{ position: 'fixed', top: 0, left: 0, width: 6, height: 6, borderRadius: 999, background: ACCENT, pointerEvents: 'none', zIndex: 200 }} />
-    </>
-  )
 }
 
 /* ─── nav ─── */
@@ -586,7 +560,6 @@ export default function PortfolioExperience() {
       <div style={{ position: 'fixed', inset: 0, zIndex: 1, pointerEvents: 'none', background: 'linear-gradient(90deg, rgba(8,9,12,0.82) 0%, rgba(8,9,12,0.34) 52%, rgba(8,9,12,0.06) 100%)' }} />
 
       <Nav goto={goto} active={active} />
-      <Cursor />
 
       <main style={{ position: 'relative', zIndex: 10 }}>
         <Hero />
