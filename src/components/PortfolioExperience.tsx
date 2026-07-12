@@ -115,12 +115,12 @@ const LEAD: [string, string][] = [
 const CATS: [string, string[]][] = [
   ['Frontend', ['React', 'Next.js', 'TypeScript', 'Redux', 'Zustand', 'TanStack Query', 'React Native']],
   ['Backend', ['Node.js', 'Express', 'NestJS', 'Django', 'Go', 'GraphQL', 'WebSockets']],
-  ['AI / LLMs', ['OpenAI', 'LangChain', 'MCP', 'Gemini', 'Pinecone', 'Claude Code', 'Cursor']],
+  ['AI / LLMs', ['LLMs', 'RAG', 'LangChain', 'MCP', 'Hugging Face', 'Transformers', 'OpenAI', 'Gemini', 'Ollama', 'PyTorch', 'TensorFlow', 'AI/ML pipelines', 'Vector DBs', 'Pinecone', 'Notebooks', 'Anaconda', 'Claude Code', 'Cursor']],
   ['Data viz', ['D3.js', 'Recharts', 'Chart.js', 'Mapbox GL', 'H3.js', 'Real-time']],
-  ['Databases', ['PostgreSQL', 'MongoDB', 'Redis', 'MySQL', 'DynamoDB']],
+  ['Databases', ['PostgreSQL', 'MongoDB', 'Redis', 'MySQL', 'DynamoDB', 'CockroachDB', 'Pinecone']],
   ['Cloud / DevOps', ['AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Terraform', 'CI/CD']],
 ]
-const CORE = new Set(['React', 'Next.js', 'TypeScript', 'Node.js', 'Go', 'MCP', 'OpenAI', 'Gemini', 'PostgreSQL', 'AWS', 'React Native', 'Mapbox GL'])
+const CORE = new Set(['React', 'Next.js', 'TypeScript', 'Node.js', 'Go', 'LLMs', 'RAG', 'LangChain', 'MCP', 'Hugging Face', 'OpenAI', 'Gemini', 'PostgreSQL', 'AWS', 'React Native', 'Mapbox GL'])
 const FLOW = ['React', 'Next.js', 'TypeScript', 'Node.js', 'Go', 'MCP', 'OpenAI', 'Gemini', 'PostgreSQL', 'Redis', 'AWS', 'Docker', 'Mapbox GL', 'React Native', 'Stripe']
 
 const UN = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=900&q=70`
@@ -140,6 +140,19 @@ const PLAY = [
 ]
 
 const NAV: [string, string][] = [['The receipts', 'work'], ['My story', 'about'], ['The toolkit', 'stack'], ['Off the clock', 'play'], ['Say hi', 'contact']]
+
+/* ─── responsive ─── */
+function useIsMobile() {
+  const [m, setM] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 820px)')
+    const on = () => setM(mq.matches)
+    on()
+    mq.addEventListener('change', on)
+    return () => mq.removeEventListener('change', on)
+  }, [])
+  return m
+}
 
 /* ─── motion helpers ─── */
 function Reveal({ children, delay = 0, style }: { children: React.ReactNode; delay?: number; style?: React.CSSProperties }) {
@@ -176,20 +189,48 @@ function GitHubIcon() {
 
 /* ─── nav ─── */
 function Nav({ goto, active }: { goto: (id: string) => void; active: string }) {
+  const isMobile = useIsMobile()
+  const [open, setOpen] = useState(false)
+  const go = (id: string) => { setOpen(false); goto(id) }
   return (
-    <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 60, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'clamp(16px,2.4vh,26px) clamp(20px,4vw,60px)', pointerEvents: 'none' }}>
-      <button onClick={() => goto('top')} data-hover style={{ pointerEvents: 'auto', background: 'none', border: 0, cursor: 'pointer', fontFamily: grot, fontWeight: 700, fontSize: 14, letterSpacing: '0.05em', color: INK }}>
-        POOJA <span style={{ color: ACCENT }}>KUSHWAH</span>
-      </button>
-      <div style={{ pointerEvents: 'auto', display: 'flex', gap: 'clamp(18px,2vw,36px)', alignItems: 'center' }}>
-        {NAV.map(([l, id]) => (
-          <button key={id} onClick={() => goto(id)} data-hover style={{ position: 'relative', background: 'none', border: 0, cursor: 'pointer', fontFamily: grot, fontWeight: 600, fontSize: 13, color: active === id ? ACCENT : 'rgba(234,238,243,0.82)', padding: '4px 1px', transition: 'color .3s' }}>
-            {l}
-            {active === id && <motion.span layoutId="nav-underline" style={{ position: 'absolute', left: 0, right: 0, bottom: -3, height: 2, borderRadius: 2, background: ACCENT }} transition={{ duration: 0.35, ease }} />}
+    <>
+      <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 70, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'clamp(16px,2.4vh,26px) clamp(20px,4vw,60px)', pointerEvents: 'none' }}>
+        <button onClick={() => go('top')} data-hover style={{ pointerEvents: 'auto', background: 'none', border: 0, cursor: 'pointer', fontFamily: grot, fontWeight: 700, fontSize: 14, letterSpacing: '0.05em', color: INK }}>
+          POOJA <span style={{ color: ACCENT }}>KUSHWAH</span>
+        </button>
+        {isMobile ? (
+          <button onClick={() => setOpen((o) => !o)} aria-label="Menu" data-hover style={{ pointerEvents: 'auto', background: 'rgba(9,13,19,0.6)', border: '1px solid rgba(234,238,243,0.2)', borderRadius: 10, padding: '9px 11px', cursor: 'pointer', display: 'grid', gap: 4.5 }}>
+            <motion.span animate={{ rotate: open ? 45 : 0, y: open ? 6.5 : 0 }} style={{ display: 'block', width: 20, height: 2, background: INK, borderRadius: 2 }} />
+            <motion.span animate={{ opacity: open ? 0 : 1 }} style={{ display: 'block', width: 20, height: 2, background: INK, borderRadius: 2 }} />
+            <motion.span animate={{ rotate: open ? -45 : 0, y: open ? -6.5 : 0 }} style={{ display: 'block', width: 20, height: 2, background: INK, borderRadius: 2 }} />
           </button>
-        ))}
-      </div>
-    </nav>
+        ) : (
+          <div style={{ pointerEvents: 'auto', display: 'flex', gap: 'clamp(18px,2vw,36px)', alignItems: 'center' }}>
+            {NAV.map(([l, id]) => (
+              <button key={id} onClick={() => go(id)} data-hover style={{ position: 'relative', background: 'none', border: 0, cursor: 'pointer', fontFamily: grot, fontWeight: 600, fontSize: 13, color: active === id ? ACCENT : 'rgba(234,238,243,0.82)', padding: '4px 1px', transition: 'color .3s' }}>
+                {l}
+                {active === id && <motion.span layoutId="nav-underline" style={{ position: 'absolute', left: 0, right: 0, bottom: -3, height: 2, borderRadius: 2, background: ACCENT }} transition={{ duration: 0.35, ease }} />}
+              </button>
+            ))}
+          </div>
+        )}
+      </nav>
+      {/* mobile fullscreen menu */}
+      <AnimatePresence>
+        {isMobile && open && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
+            style={{ position: 'fixed', inset: 0, zIndex: 65, background: 'rgba(7,10,15,0.96)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 28px', gap: 6 }}>
+            {NAV.map(([l, id], i) => (
+              <motion.button key={id} initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.06 + i * 0.05, duration: 0.4, ease }} onClick={() => go(id)}
+                style={{ background: 'none', border: 0, textAlign: 'left', padding: '12px 0', cursor: 'pointer', ...MEGA, fontSize: 38, color: active === id ? ACCENT : INK }}>
+                {l}
+              </motion.button>
+            ))}
+            <div style={{ marginTop: 26, fontFamily: grot, fontWeight: 600, fontSize: 12.5, color: MUTE }}>Dubai, UAE · pookus7790@gmail.com</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
 
@@ -209,6 +250,7 @@ const HERO_STATS: [string, string][] = [
   ['500K+', 'users served'],
 ]
 function Hero() {
+  const isMobile = useIsMobile()
   const [time, setTime] = useState('')
   const [mi, setMi] = useState(0)
   useEffect(() => {
@@ -244,10 +286,10 @@ function Hero() {
       <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 0.7 }} style={{ marginTop: 'clamp(16px,2.4vh,26px)', marginLeft: 4, display: 'flex', alignItems: 'center', gap: 12 }}>
         <span style={{ width: 34, height: 1.5, background: ACCENT, flexShrink: 0 }} />
         <span style={{ fontFamily: grot, fontWeight: 600, fontSize: 'clamp(13px,1.05vw,15px)', color: MUTE, flexShrink: 0 }}>currently,</span>
-        <span style={{ position: 'relative', height: 22, overflow: 'hidden', flex: 1, minWidth: 0 }}>
+        <span style={{ position: 'relative', height: isMobile ? 40 : 22, overflow: 'hidden', flex: 1, minWidth: 0 }}>
           <AnimatePresence mode="wait">
             <motion.span key={mi} initial={{ y: 22, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -22, opacity: 0 }} transition={{ duration: 0.5, ease }}
-              style={{ position: 'absolute', left: 0, fontFamily: sans, fontStyle: 'italic', fontWeight: 500, fontSize: 'clamp(14px,1.2vw,17.5px)', lineHeight: '22px', color: 'rgba(234,238,243,0.88)', whiteSpace: 'nowrap' }}>
+              style={{ position: 'absolute', left: 0, right: 0, fontFamily: sans, fontStyle: 'italic', fontWeight: 500, fontSize: isMobile ? 13 : 'clamp(14px,1.2vw,17.5px)', lineHeight: isMobile ? '19px' : '22px', color: 'rgba(234,238,243,0.88)', whiteSpace: isMobile ? 'normal' : 'nowrap' }}>
               {CURRENTLY[mi]}
             </motion.span>
           </AnimatePresence>
@@ -348,7 +390,45 @@ function WorkPanel({ p, i, n, progress }: { p: (typeof PROJECTS)[number]; i: num
   )
 }
 
+/* mobile: simple full-width card, everything visible, no pin */
+function MobileWorkCard({ p }: { p: (typeof PROJECTS)[number] }) {
+  return (
+    <Reveal>
+      <article style={{ position: 'relative', borderRadius: 20, overflow: 'hidden', background: p.grad, color: '#fff', border: '1px solid rgba(255,255,255,0.18)', padding: '22px 18px', marginBottom: 16 }}>
+        <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'radial-gradient(120% 90% at 85% 8%, rgba(255,255,255,0.2), transparent 55%)' }} />
+        <div aria-hidden style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 55%, rgba(2,8,16,0.36) 100%)' }} />
+        <div style={{ position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 14 }}>
+            <img src={p.logo} alt={`${p.t} logo`} style={{ height: 34, width: 'auto', minWidth: 34, maxWidth: 100, background: '#fff', padding: 4, borderRadius: 9, objectFit: 'contain', border: '1px solid rgba(255,255,255,0.35)' }} />
+            <span style={{ fontFamily: grot, fontWeight: 700, fontSize: 11.5, color: '#fff', background: 'rgba(2,8,16,0.32)', border: '1px solid rgba(255,255,255,0.3)', padding: '6px 11px', borderRadius: 999 }}>{p.r}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, marginBottom: 8 }}>
+            <h3 style={{ ...MEGA, fontSize: 'clamp(32px,9vw,44px)' }}>{p.t}</h3>
+            <div style={{ textAlign: 'right', flexShrink: 0 }}>
+              <div style={{ ...MEGA, fontSize: 22 }}>{p.stat}</div>
+              <div style={{ fontFamily: grot, fontWeight: 600, fontSize: 10, color: 'rgba(255,255,255,0.75)' }}>{p.b}</div>
+            </div>
+          </div>
+          <div style={{ fontFamily: grot, fontWeight: 600, fontSize: 11.5, color: 'rgba(255,255,255,0.85)', marginBottom: 10 }}>{p.p} · {p.tag}</div>
+          <p style={{ fontFamily: sans, fontSize: 14, fontWeight: 500, lineHeight: 1.45, color: 'rgba(255,255,255,0.97)', margin: '0 0 12px' }}>{p.d}</p>
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.28)', paddingTop: 10, marginBottom: 12 }}>
+            {p.hi.map((h) => (
+              <div key={h} style={{ display: 'flex', gap: 8, padding: '3px 0', fontFamily: sans, fontSize: 12.5, lineHeight: 1.45, color: 'rgba(255,255,255,0.95)' }}>
+                <span style={{ color: 'rgba(255,255,255,0.75)' }}>·</span>{h}
+              </div>
+            ))}
+          </div>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {p.tech.map((tt) => <span key={tt} style={{ fontFamily: grot, fontWeight: 600, fontSize: 10.5, color: '#fff', background: 'rgba(2,8,16,0.3)', border: '1px solid rgba(255,255,255,0.32)', padding: '5px 10px', borderRadius: 999 }}>{tt}</span>)}
+          </div>
+        </div>
+      </article>
+    </Reveal>
+  )
+}
+
 function Work() {
+  const isMobile = useIsMobile()
   const track = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: track, offset: ['start start', 'end end'] })
   const [active, setActive] = useState(0)
@@ -358,6 +438,16 @@ function Work() {
   const endX = -((n - 1) * pitch) + startX
   const x = useTransform(scrollYProgress, [0, 1], [`${startX}vw`, `${endX}vw`])
   const bar = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
+
+  if (isMobile) {
+    return (
+      <section id="work" style={{ position: 'relative', padding: '60px 16px 40px', background: 'rgba(8,10,15,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
+        <Tag style={{ marginBottom: 8 }}>Selected work</Tag>
+        <div style={{ ...MEGA, fontSize: 'clamp(38px,11vw,52px)', marginBottom: 22 }}>The receipts</div>
+        {PROJECTS.map((p) => <MobileWorkCard key={p.t} p={p} />)}
+      </section>
+    )
+  }
 
   return (
     <section id="work" ref={track} style={{ position: 'relative', height: `${n * 55}vh`, background: 'rgba(8,10,15,0.5)' }}>
@@ -386,6 +476,7 @@ function Work() {
 
 /* ─── about: zoom statement + slide-in ─── */
 function About() {
+  const isMobile = useIsMobile()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
   const scale = useTransform(scrollYProgress, [0, 0.55], [0.82, 1.14])
@@ -401,7 +492,7 @@ function About() {
       </motion.h2>
 
       {/* content that flies in from the right */}
-      <div style={{ position: 'relative', marginTop: 'clamp(34px,6vh,72px)', display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: 'clamp(28px,5vw,80px)', alignItems: 'start' }}>
+      <div style={{ position: 'relative', marginTop: 'clamp(34px,6vh,72px)', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'minmax(0,1fr) minmax(0,1fr)', gap: isMobile ? '30px' : 'clamp(28px,5vw,80px)', alignItems: 'start' }}>
         <Reveal>
           <p style={{ fontFamily: sans, fontSize: 'clamp(17px,1.7vw,26px)', fontWeight: 500, lineHeight: 1.5, color: INK, maxWidth: '24ch', margin: 0 }}>
             Then I <span style={{ color: ACCENT }}>ship it.</span> E-commerce to 500K+ European shoppers. A frontend from 7-8 seconds to under half a second. An e-rickshaw platform running real rides in Delhi before a rupee of funding.
@@ -410,7 +501,7 @@ function About() {
         <FromRight>
           <Tag style={{ marginBottom: 16 }}>The trajectory</Tag>
           {TRAJECTORY.map(([y, l, s]) => (
-            <motion.div key={l} whileHover={{ x: 6 }} transition={{ duration: 0.3, ease }} style={{ display: 'flex', alignItems: 'baseline', gap: 16, padding: 'clamp(11px,1.6vh,16px) 0', borderTop: '1px solid rgba(234,238,243,0.12)' }}>
+            <motion.div key={l} whileHover={{ x: 6 }} transition={{ duration: 0.3, ease }} style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap', padding: 'clamp(11px,1.6vh,16px) 0', borderTop: '1px solid rgba(234,238,243,0.12)' }}>
               <span style={{ fontFamily: grot, fontWeight: 700, fontSize: 'clamp(12px,0.95vw,14px)', color: ACCENT, minWidth: 'clamp(88px,7.5vw,116px)', flexShrink: 0 }}>{y}</span>
               <span style={{ ...MEGA, fontSize: 'clamp(22px,2.4vw,42px)' }}>{l}</span>
               <span style={{ ...label, fontSize: 10, color: MUTE, marginLeft: 'auto', textAlign: 'right', letterSpacing: '0.12em' }}>{s}</span>
@@ -434,48 +525,79 @@ function About() {
 
 /* ─── stack: interactive split — hover a category, its tools appear large ─── */
 function Stack() {
+  const isMobile = useIsMobile()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
   const headScale = useTransform(scrollYProgress, [0, 0.35], [0.86, 1.06])
   const headX = useTransform(scrollYProgress, [0, 0.35], ['0vw', '-2vw'])
   const [act, setAct] = useState(0)
-  const items = CATS[act][1]
+  const items = CATS[act]?.[1] ?? CATS[0][1]
 
   return (
     <section id="stack" ref={ref} style={{ position: 'relative', padding: 'clamp(70px,11vh,120px) clamp(20px,4vw,60px)', background: 'linear-gradient(180deg, rgba(9,12,18,0.58), rgba(11,20,32,0.72))', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', overflow: 'hidden' }}>
       <Reveal><Tag style={{ marginBottom: 12 }}>What I bring</Tag></Reveal>
       <motion.h2 style={{ scale: headScale, x: headX, transformOrigin: 'left center', ...MEGA, fontSize: 'clamp(48px,9vw,180px)' }}>Lead. Architect. <span style={{ color: ACCENT }}>Ship.</span></motion.h2>
 
-      {/* interactive split: category list ↔ its tools shown large */}
-      <div style={{ marginTop: 'clamp(34px,6vh,64px)', display: 'grid', gridTemplateColumns: 'minmax(0,0.85fr) minmax(0,1.15fr)', gap: 'clamp(24px,4vw,72px)', alignItems: 'start' }}>
-        <div>
-          {CATS.map(([cat], i) => {
+      {/* mobile: accordion — tools expand right under the tapped category */}
+      {isMobile ? (
+        <div style={{ marginTop: 30 }}>
+          {CATS.map(([cat, tools], i) => {
             const on = act === i
             return (
-              <button key={cat} onMouseEnter={() => setAct(i)} onFocus={() => setAct(i)} onClick={() => setAct(i)} data-hover
-                style={{ display: 'flex', alignItems: 'center', gap: 16, width: '100%', textAlign: 'left', background: 'none', border: 0, borderTop: '1px solid rgba(234,238,243,0.12)', padding: 'clamp(12px,1.8vh,20px) 0', cursor: 'pointer' }}>
-                <span style={{ fontFamily: grot, fontWeight: 700, fontSize: 12, color: on ? ACCENT : MUTE, width: 22 }}>{String(i + 1).padStart(2, '0')}</span>
-                <span style={{ ...MEGA, fontSize: 'clamp(26px,3.4vw,54px)', color: on ? INK : 'rgba(234,238,243,0.3)', transition: 'color .3s' }}>{cat}</span>
-                <motion.span animate={{ opacity: on ? 1 : 0, x: on ? 0 : -10 }} transition={{ duration: 0.25 }} style={{ marginLeft: 'auto', color: ACCENT, fontSize: 22 }}>→</motion.span>
-              </button>
+              <div key={cat} style={{ borderTop: '1px solid rgba(234,238,243,0.12)' }}>
+                <button onClick={() => setAct(on ? -1 : i)} data-hover
+                  style={{ display: 'flex', alignItems: 'center', gap: 14, width: '100%', textAlign: 'left', background: 'none', border: 0, padding: '15px 0', cursor: 'pointer' }}>
+                  <span style={{ fontFamily: grot, fontWeight: 700, fontSize: 12, color: on ? ACCENT : MUTE, width: 22 }}>{String(i + 1).padStart(2, '0')}</span>
+                  <span style={{ ...MEGA, fontSize: 30, color: on ? INK : 'rgba(234,238,243,0.4)', transition: 'color .3s' }}>{cat}</span>
+                  <motion.span animate={{ rotate: on ? 45 : 0 }} transition={{ duration: 0.25 }} style={{ marginLeft: 'auto', color: ACCENT, fontSize: 24, lineHeight: 1 }}>+</motion.span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {on && (
+                    <motion.div key="tools" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.35, ease }} style={{ overflow: 'hidden' }}>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, padding: '2px 0 18px 36px' }}>
+                        {tools.map((tt) => (
+                          <span key={tt} style={{ fontFamily: grot, fontWeight: 600, fontSize: 12.5, padding: '6px 12px', borderRadius: 999, color: CORE.has(tt) ? BG : 'rgba(234,238,243,0.85)', background: CORE.has(tt) ? ACCENT : 'rgba(234,238,243,0.07)', border: CORE.has(tt) ? 'none' : '1px solid rgba(234,238,243,0.16)' }}>{tt}</span>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             )
           })}
         </div>
+      ) : (
+        /* desktop: interactive split — category list ↔ its tools shown large */
+        <div style={{ marginTop: 'clamp(34px,6vh,64px)', display: 'grid', gridTemplateColumns: 'minmax(0,0.85fr) minmax(0,1.15fr)', gap: 'clamp(24px,4vw,72px)', alignItems: 'start' }}>
+          <div>
+            {CATS.map(([cat], i) => {
+              const on = act === i
+              return (
+                <button key={cat} onMouseEnter={() => setAct(i)} onFocus={() => setAct(i)} onClick={() => setAct(i)} data-hover
+                  style={{ display: 'flex', alignItems: 'center', gap: 16, width: '100%', textAlign: 'left', background: 'none', border: 0, borderTop: '1px solid rgba(234,238,243,0.12)', padding: 'clamp(12px,1.8vh,20px) 0', cursor: 'pointer' }}>
+                  <span style={{ fontFamily: grot, fontWeight: 700, fontSize: 12, color: on ? ACCENT : MUTE, width: 22 }}>{String(i + 1).padStart(2, '0')}</span>
+                  <span style={{ ...MEGA, fontSize: 'clamp(26px,3.4vw,54px)', color: on ? INK : 'rgba(234,238,243,0.3)', transition: 'color .3s' }}>{cat}</span>
+                  <motion.span animate={{ opacity: on ? 1 : 0, x: on ? 0 : -10 }} transition={{ duration: 0.25 }} style={{ marginLeft: 'auto', color: ACCENT, fontSize: 22 }}>→</motion.span>
+                </button>
+              )
+            })}
+          </div>
 
-        <div style={{ minHeight: 'clamp(240px,42vh,380px)' }}>
-          <AnimatePresence mode="wait">
-            <motion.div key={act} initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -18 }} transition={{ duration: 0.4, ease }}>
-              <div style={{ fontFamily: grot, fontWeight: 600, fontSize: 13, color: MUTE, marginBottom: 'clamp(16px,2.4vh,26px)' }}>{items.length} tools, in production</div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(10px,1.4vw,18px) clamp(16px,2vw,30px)' }}>
-                {items.map((tt, k) => (
-                  <motion.span key={tt} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 + k * 0.04, duration: 0.4, ease }}
-                    style={{ ...MEGA, fontSize: 'clamp(22px,2.8vw,46px)', color: CORE.has(tt) ? ACCENT : 'rgba(234,238,243,0.9)', lineHeight: 1 }}>{tt}</motion.span>
-                ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
+          <div style={{ minHeight: 'clamp(240px,42vh,380px)' }}>
+            <AnimatePresence mode="wait">
+              <motion.div key={act} initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -18 }} transition={{ duration: 0.4, ease }}>
+                <div style={{ fontFamily: grot, fontWeight: 600, fontSize: 13, color: MUTE, marginBottom: 'clamp(16px,2.4vh,26px)' }}>{items.length} tools, in production</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'clamp(10px,1.4vw,18px) clamp(16px,2vw,30px)' }}>
+                  {items.map((tt, k) => (
+                    <motion.span key={tt} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 + k * 0.04, duration: 0.4, ease }}
+                      style={{ ...MEGA, fontSize: 'clamp(22px,2.8vw,46px)', color: CORE.has(tt) ? ACCENT : 'rgba(234,238,243,0.9)', lineHeight: 1 }}>{tt}</motion.span>
+                  ))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* how I lead — clean editorial columns, no boxes */}
       <div style={{ marginTop: 'clamp(44px,8vh,88px)' }}>
@@ -499,8 +621,9 @@ function Stack() {
 /* ─── play: airy outlined gallery card; framed duotone photo, caption on the border, hover story panel ─── */
 function PlayTile({ item }: { item: (typeof PLAY)[number] }) {
   const chips = item.meta.split('·').map((c) => c.trim())
+  const [open, setOpen] = useState(false) // tap-to-open on touch; hover still rules on desktop
   return (
-    <motion.article data-hover initial="r" whileHover="h" animate="r"
+    <motion.article data-hover initial="r" whileHover="h" animate={open ? 'h' : 'r'} onClick={() => setOpen((o) => !o)}
       variants={{ r: { borderColor: 'rgba(234,238,243,0.16)' }, h: { borderColor: ACCENT } }} transition={{ duration: 0.35, ease }}
       style={{ position: 'relative', height: '100%', border: '1px solid rgba(234,238,243,0.16)', borderRadius: 26, background: 'transparent', padding: 'clamp(18px,1.7vw,26px)', cursor: 'pointer' }}>
       {/* framed photo — floats inside the outlined card with real air around it */}
@@ -527,8 +650,25 @@ function PlayTile({ item }: { item: (typeof PLAY)[number] }) {
   )
 }
 
-/* Stack freezes at its last screen; the Play panel then sweeps in from the top-left OVER it (scroll-driven, full-screen), then scrolls on as a normal section */
+function PlayInner({ isMobile }: { isMobile: boolean }) {
+  return (
+    <>
+      <Tag style={{ marginBottom: 14 }}>Off the clock</Tag>
+      <h2 style={{ ...MEGA, fontSize: 'clamp(40px,7vw,120px)', marginBottom: 'clamp(10px,2vh,18px)' }}>Who I am when<br />I&apos;m <span style={{ color: ACCENT }}>not shipping.</span></h2>
+      <p style={{ fontFamily: sans, fontSize: 'clamp(14px,1.2vw,17px)', lineHeight: 1.5, color: 'rgba(234,238,243,0.62)', maxWidth: '52ch', marginBottom: 'clamp(30px,5vh,52px)' }}>
+        Turns out I have a whole personality outside the terminal. {isMobile ? 'Tap' : 'Hover'} any of these.
+      </p>
+      <div className="play-mosaic">
+        {PLAY.map((item) => <div key={item.title}><PlayTile item={item} /></div>)}
+      </div>
+    </>
+  )
+}
+
+/* Stack freezes at its last screen; the Play panel then sweeps in from the top-left OVER it (scroll-driven, full-screen), then scrolls on as a normal section.
+   On mobile the pin/sweep is skipped entirely — plain stacked sections. */
 function StackPlay() {
+  const isMobile = useIsMobile()
   const stackWrap = useRef<HTMLDivElement>(null)
   const [stackTop, setStackTop] = useState<number | null>(null)
   useEffect(() => {
@@ -546,6 +686,17 @@ function StackPlay() {
   const { scrollYProgress } = useScroll({ target: probe, offset: ['start start', 'end start'] })
   const x = useTransform(scrollYProgress, [0, 0.85], ['-112%', '0%'])
 
+  if (isMobile) {
+    return (
+      <div style={{ position: 'relative' }}>
+        <Stack />
+        <section id="play" style={{ position: 'relative', zIndex: 6, background: '#0a0e15', padding: '60px 16px 70px' }}>
+          <PlayInner isMobile />
+        </section>
+      </div>
+    )
+  }
+
   return (
     <div style={{ position: 'relative' }}>
       {/* stack pins at its last screen while the panel covers it */}
@@ -558,12 +709,7 @@ function StackPlay() {
         <div ref={probe} aria-hidden style={{ position: 'absolute', top: 0, left: 0, width: 1, height: '100vh' }} />
         <div style={{ position: 'sticky', top: 0 }}>
           <motion.div style={{ x, pointerEvents: 'auto', minHeight: '100vh', background: '#0a0e15', borderRight: '1px solid rgba(34,184,230,0.25)', padding: 'clamp(80px,12vh,130px) clamp(20px,4vw,60px) clamp(70px,10vh,120px)' }}>
-            <Tag style={{ marginBottom: 14 }}>Off the clock</Tag>
-            <h2 style={{ ...MEGA, fontSize: 'clamp(40px,7vw,120px)', marginBottom: 'clamp(10px,2vh,18px)' }}>Who I am when<br />I&apos;m <span style={{ color: ACCENT }}>not shipping.</span></h2>
-            <p style={{ fontFamily: sans, fontSize: 'clamp(14px,1.2vw,17px)', lineHeight: 1.5, color: 'rgba(234,238,243,0.62)', maxWidth: '52ch', marginBottom: 'clamp(30px,5vh,52px)' }}>Turns out I have a whole personality outside the terminal. Hover any of these.</p>
-            <div className="play-mosaic">
-              {PLAY.map((item) => <div key={item.title}><PlayTile item={item} /></div>)}
-            </div>
+            <PlayInner isMobile={false} />
           </motion.div>
         </div>
         {/* entrance scroll distance */}
@@ -598,7 +744,7 @@ function SocialRow({ s }: { s: (typeof SOCIALS)[number] }) {
       <motion.span aria-hidden variants={{ r: { y: '101%' }, h: { y: '0%' } }} transition={{ duration: 0.4, ease }} style={{ position: 'absolute', inset: 0, background: ACCENT }} />
       <motion.span variants={{ r: { color: '#EAEEF3' }, h: { color: BG } }} transition={{ duration: 0.3 }} style={{ position: 'relative', display: 'inline-flex' }}><I /></motion.span>
       <motion.span variants={{ r: { color: '#EAEEF3' }, h: { color: BG } }} transition={{ duration: 0.3 }} style={{ position: 'relative', ...MEGA, fontSize: 'clamp(22px,2.2vw,36px)' }}>{s.label}</motion.span>
-      <motion.span variants={{ r: { color: MUTE, x: 0 }, h: { color: BG, x: -6 } }} transition={{ duration: 0.3 }} style={{ position: 'relative', marginLeft: 'auto', fontFamily: grot, fontWeight: 600, fontSize: 'clamp(12px,1vw,14px)' }}>{s.handle}</motion.span>
+      <motion.span variants={{ r: { color: MUTE, x: 0 }, h: { color: BG, x: -6 } }} transition={{ duration: 0.3 }} style={{ position: 'relative', marginLeft: 'auto', fontFamily: grot, fontWeight: 600, fontSize: 'clamp(11px,1vw,14px)', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.handle}</motion.span>
       <motion.span variants={{ r: { opacity: 0.5, x: -6, color: ACCENT }, h: { opacity: 1, x: 0, color: BG } }} transition={{ duration: 0.3 }} style={{ position: 'relative', fontSize: 'clamp(18px,1.6vw,24px)', lineHeight: 1 }}>↗</motion.span>
     </motion.a>
   )
@@ -629,6 +775,7 @@ function QuickMessage() {
 }
 
 function Contact() {
+  const isMobile = useIsMobile()
   return (
     <section id="contact" style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 'clamp(90px,12vh,140px) clamp(20px,4vw,60px)' }}>
       <div style={{ width: '100%', maxWidth: 1500, margin: '0 auto' }}>
@@ -647,7 +794,7 @@ function Contact() {
           <h2 className="pk-sheen" style={{ ...MEGA, fontSize: 'clamp(80px,17vw,300px)', color: ACCENT, lineHeight: 0.8 }}>Say hi.</h2>
         </Reveal>
 
-        <div style={{ marginTop: 'clamp(30px,5.5vh,64px)', display: 'grid', gridTemplateColumns: 'minmax(0,1.02fr) minmax(0,0.98fr)', gap: 'clamp(34px,5vw,90px)', alignItems: 'start' }}>
+        <div style={{ marginTop: 'clamp(30px,5.5vh,64px)', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'minmax(0,1.02fr) minmax(0,0.98fr)', gap: isMobile ? '30px' : 'clamp(34px,5vw,90px)', alignItems: 'start' }}>
           {/* quick message — chat-style composer */}
           <Reveal delay={0.1}>
             <div style={{ position: 'relative', border: '1px solid rgba(234,238,243,0.16)', borderRadius: 22, padding: 'clamp(20px,2vw,30px)', background: 'rgba(9,13,19,0.6)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
@@ -691,6 +838,7 @@ function Contact() {
 
 /* ─── orchestrator ─── */
 export default function PortfolioExperience() {
+  const isMobile = useIsMobile()
   const lenisRef = useRef<Lenis | null>(null)
   const [active, setActive] = useState('top')
 
@@ -713,8 +861,8 @@ export default function PortfolioExperience() {
   const goto = (id: string) => {
     const el = document.getElementById(id)
     if (!el) return
-    // play overlaps the frozen stack by 100vh; land where the panel is fully in
-    const offset = id === 'play' ? window.innerHeight : 0
+    // desktop: play overlaps the frozen stack by 100vh; land where the panel is fully in
+    const offset = id === 'play' && !isMobile ? window.innerHeight : 0
     if (lenisRef.current) lenisRef.current.scrollTo(el, { offset })
     else el.scrollIntoView({ behavior: 'smooth' })
   }
