@@ -764,14 +764,16 @@ function SocialRow({ s }: { s: (typeof SOCIALS)[number] }) {
   )
 }
 /* message composer — posts to the Cloudflare Pages Function at /api/contact, which relays to Slack */
-type SendStatus = 'idle' | 'sending' | 'sent' | 'error'
+type SendStatus = 'idle' | 'sending' | 'sent' | 'invalid_email' | 'error'
 const SEND_HINT: Record<SendStatus, string> = {
   idle: 'Lands straight in my Slack. I usually reply the same day.',
   sending: 'Sending...',
-  sent: 'Got it. I will get back to you soon.',
-  error: 'That did not go through. Email me at pookus7790@gmail.com instead.',
+  sent: 'Got it, thanks! I will get back to you soon.',
+  invalid_email: 'That email does not look right. Please check it, or leave it empty.',
+  error: 'Something went wrong on my side. Please email me at pookus7790@gmail.com instead.',
 }
-const SEND_LABEL: Record<SendStatus, string> = { idle: 'Send →', sending: 'Sending...', sent: 'Sent ✓', error: 'Retry →' }
+const SEND_LABEL: Record<SendStatus, string> = { idle: 'Send →', sending: 'Sending...', sent: 'Sent ✓', invalid_email: 'Send →', error: 'Retry →' }
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 function QuickMessage() {
   const [msg, setMsg] = useState('')
@@ -782,14 +784,19 @@ function QuickMessage() {
 
   const send = async () => {
     if (!canSend) return
+    const email = from.trim()
+    if (email && !EMAIL_PATTERN.test(email)) return setStatus('invalid_email')
     setStatus('sending')
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ message: msg.trim(), email: from.trim(), company: trap }),
+        body: JSON.stringify({ message: msg.trim(), email, company: trap }),
       })
-      if (!res.ok) throw new Error(`status ${res.status}`)
+      if (!res.ok) {
+        const { error } = (await res.json().catch(() => ({}))) as { error?: string }
+        return setStatus(error === 'invalid_email' ? 'invalid_email' : 'error')
+      }
       setStatus('sent')
       setMsg('')
       setFrom('')
@@ -806,13 +813,14 @@ function QuickMessage() {
       <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden value={trap} onChange={(e) => setTrap(e.target.value)}
         style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }} />
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-        <input className="pk-input" data-hover type="email" maxLength={200} placeholder="Your email, so I can reply" value={from} onChange={(e) => setFrom(e.target.value)} style={{ flex: '1 1 200px' }} />
+        <input className="pk-input" data-hover type="email" maxLength={200} placeholder="Your email, so I can reply" value={from} onChange={(e) => { setFrom(e.target.value); if (status === 'invalid_email') setStatus('idle') }}
+          aria-invalid={status === 'invalid_email'} style={{ flex: '1 1 200px', ...(status === 'invalid_email' && { borderColor: '#F28B82' }) }} />
         <motion.button onClick={send} disabled={!canSend} data-hover whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}
           style={{ fontFamily: grot, fontWeight: 700, fontSize: 14, color: BG, background: ACCENT, border: 0, borderRadius: 12, padding: '13px 26px', cursor: canSend ? 'pointer' : 'default', opacity: canSend || status === 'sent' ? 1 : 0.55 }}>
           {SEND_LABEL[status]}
         </motion.button>
       </div>
-      <div role="status" style={{ fontFamily: grot, fontWeight: 600, fontSize: 11, color: status === 'error' ? '#F28B82' : status === 'sent' ? ACCENT : MUTE, marginTop: 10 }}>{SEND_HINT[status]}</div>
+      <div role="status" style={{ fontFamily: grot, fontWeight: 600, fontSize: 11, color: status === 'error' || status === 'invalid_email' ? '#F28B82' : status === 'sent' ? ACCENT : MUTE, marginTop: 10 }}>{SEND_HINT[status]}</div>
     </div>
   )
 }
