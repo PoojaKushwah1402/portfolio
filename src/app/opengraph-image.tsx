@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const dynamic = 'force-static'
-export const alt = 'Pooja Kushwah · Senior Software Engineer · Full-Stack & AI · Dubai'
+export const alt = 'Pooja Kushwah · Senior Full Stack Engineer · Full-Stack & AI · Dubai'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -23,7 +23,7 @@ export default function OgImage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
           <div style={{ width: 12, height: 12, borderRadius: 99, background: '#22B8E6' }} />
           <div style={{ fontSize: 26, color: 'rgba(234,238,243,0.75)', fontWeight: 600 }}>
-            Senior Software Engineer · Co-founder at Macro Rides · Dubai
+            Senior Full Stack Engineer · Open to new roles · Dubai
           </div>
         </div>
         <div style={{ fontSize: 130, fontWeight: 800, color: '#EAEEF3', lineHeight: 0.95, letterSpacing: '-2px' }}>POOJA</div>

@@ -6,16 +6,17 @@ const SITE = 'https://poojakushwah.com'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: 'Pooja Kushwah · Senior Software Engineer · Full-Stack & AI · Dubai',
+    default: 'Pooja Kushwah · Senior Full Stack Engineer · Full-Stack & AI · Dubai',
     template: '%s · Pooja Kushwah',
   },
   description:
-    'Pooja Kushwah is a Senior Software Engineer and Co-founder of Macro Rides, based in Dubai. 7+ years building full-stack and AI products with React, Next.js, Node.js, Go and AWS — from a 500K+ user platform in Europe to a ride-hailing startup in Delhi.',
+    'Pooja Kushwah is a Senior Full Stack Engineer based in Dubai, open to new roles. 7+ years owning full-stack and AI products end to end with React, Next.js, Node.js, Go and AWS, from a 500K+ user platform in Europe to a ride-hailing platform built from zero in Delhi.',
   keywords: [
     'Pooja Kushwah',
     'Pooja Kushwah portfolio',
     'Pooja Kushwah developer',
     'Pooja Kushwah Dubai',
+    'Senior Full Stack Engineer Dubai',
     'Senior Software Engineer Dubai',
     'Full Stack Developer Dubai',
     'AI Engineer Dubai',
@@ -23,7 +24,6 @@ export const metadata: Metadata = {
     'Next.js developer',
     'Node.js engineer',
     'Macro Rides',
-    'Macrorides co-founder',
     'Livjaza engineer',
   ],
   authors: [{ name: 'Pooja Kushwah', url: SITE }],
@@ -63,15 +63,13 @@ const personJsonLd = {
   '@type': 'Person',
   name: 'Pooja Kushwah',
   url: SITE,
-  jobTitle: 'Senior Software Engineer',
+  jobTitle: 'Senior Full Stack Engineer',
   description:
-    'Senior Software Engineer and Co-founder of Macro Rides. 7+ years of full-stack and AI engineering across React, Next.js, Node.js, Go and AWS.',
+    'Senior Full Stack Engineer with 7+ years of full-stack and AI engineering across React, Next.js, Node.js, Go and AWS. Takes products from spec to production with full ownership.',
   address: { '@type': 'PostalAddress', addressLocality: 'Dubai', addressCountry: 'AE' },
-  worksFor: [
+  alumniOf: [
     { '@type': 'Organization', name: 'Livjaza' },
     { '@type': 'Organization', name: 'Macro Rides', url: 'https://macrorides.in' },
-  ],
-  alumniOf: [
     { '@type': 'Organization', name: 'group.one' },
     { '@type': 'Organization', name: 'BRIDGEi2i Analytics Solutions' },
     { '@type': 'Organization', name: 'Amdocs' },

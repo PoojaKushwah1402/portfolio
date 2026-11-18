@@ -20,7 +20,7 @@ const label: React.CSSProperties = { fontFamily: grot, fontWeight: 600, fontSize
 /* ─── content, from the résumé ─── */
 const PROJECTS = [
   {
-    n: '01', t: 'Livjaza', r: 'Senior Full Stack Engineer', p: '2026 → now', b: '7-8s → <500ms', stat: '<500ms',
+    n: '01', t: 'Livjaza', r: 'Senior Full Stack Engineer', p: 'Jan 2026 → Nov 2026', b: '7-8s → <500ms', stat: '<500ms',
     logo: '/logos/livjaza.svg',
     grad: 'linear-gradient(135deg,#E4569B 0%,#5E002F 100%)',
     tag: 'hospitality tech · property + channel management · Dubai',
@@ -30,11 +30,13 @@ const PROJECTS = [
       'AI property search: LLM APIs into a Next.js SSR frontend',
       'AI-driven dynamic pricing dashboard in React + Recharts',
       'ForumPay crypto payments; led cloud migration Azure → AWS',
+      'iCal sync across OTAs, with conflict resolution and real-time availability',
+      'Observability across services with Sentry and Grafana: errors, alerts, performance',
     ],
-    tech: ['Next.js', 'Node.js', 'Go', 'Django', 'AWS'],
+    tech: ['Next.js', 'Node.js', 'Go', 'Django', 'AWS', 'Grafana'],
   },
   {
-    n: '02', t: 'Macro Rides', r: 'Co-founder & CTO', p: '2025 → now', b: '0 → 1', stat: '0→1',
+    n: '02', t: 'Macro Rides', r: 'Co-founder & CTO', p: 'Sep 2024 → Feb 2025', b: '0 → 1', stat: '0→1',
     logo: '/logos/macrorides.jpg',
     grad: 'linear-gradient(135deg,#41A566 0%,#0C331D 100%)',
     tag: 'e-rickshaw ride-hailing · DPIIT recognised · Delhi',
@@ -48,7 +50,7 @@ const PROJECTS = [
     tech: ['React Native', 'Node.js', 'PostgreSQL', 'WebSocket', 'AWS'],
   },
   {
-    n: '03', t: 'group.one', r: 'Software Engineer', p: '2022 → 2025', b: '500K+ users', stat: '500K+',
+    n: '03', t: 'group.one', r: 'Software Engineer', p: 'Apr 2022 → Dec 2024', b: '500K+ users', stat: '500K+',
     logo: '/logos/groupone.png',
     grad: 'linear-gradient(135deg,#E6B23A 0%,#4E3007 100%)',
     tag: 'AI-powered SaaS · website builder + e-commerce · Europe',
@@ -62,7 +64,7 @@ const PROJECTS = [
     tech: ['React', 'TypeScript', 'MCP', 'Stripe', 'Jest'],
   },
   {
-    n: '04', t: 'BRIDGEi2i', r: 'Software Engineer', p: '2021 → 2022', b: 'analytics', stat: 'DATA',
+    n: '04', t: 'BRIDGEi2i', r: 'Software Engineer', p: 'May 2021 → Apr 2022', b: 'analytics', stat: 'DATA',
     logo: '/logos/bridgei2i.jpg',
     grad: 'linear-gradient(135deg,#9B5FE8 0%,#2E1160 100%)',
     tag: 'AI-driven analytics consulting · now part of Accenture · India',
@@ -74,7 +76,7 @@ const PROJECTS = [
     tech: ['React', 'D3.js', 'Analytics'],
   },
   {
-    n: '05', t: 'Amdocs', r: 'Associate Software Engineer', p: '2019 → 2021', b: 'where it started', stat: '2019',
+    n: '05', t: 'Amdocs', r: 'Associate Software Engineer', p: 'Aug 2019 → May 2021', b: 'where it started', stat: '2019',
     logo: '/logos/amdocs.png',
     grad: 'linear-gradient(135deg,#EE7A50 0%,#6E1436 100%)',
     tag: 'global telecom software · enterprise · India',
@@ -89,11 +91,11 @@ const PROJECTS = [
 ] as const
 
 const TRAJECTORY: [string, string, string][] = [
-  ['2026 → now', 'Livjaza', 'Senior Full Stack · Dubai'],
-  ['2025 → now', 'Macro Rides', 'Co-founder & CTO · Delhi'],
-  ['2022 → 2025', 'group.one', 'AI SaaS · Europe'],
-  ['2021 → 2022', 'BRIDGEi2i', 'AI analytics'],
-  ['2019 → 2021', 'Amdocs', 'Telecom · React + Node'],
+  ['Jan 2026 → Nov 2026', 'Livjaza', 'Senior Full Stack · Dubai'],
+  ['Sep 2024 → Feb 2025', 'Macro Rides', 'Co-founder & CTO · Delhi'],
+  ['Apr 2022 → Dec 2024', 'group.one', 'AI SaaS · Europe'],
+  ['May 2021 → Apr 2022', 'BRIDGEi2i', 'AI analytics'],
+  ['Aug 2019 → May 2021', 'Amdocs', 'Telecom · React + Node'],
 ]
 
 const ACHIEVEMENTS: [string, string][] = [
@@ -171,6 +173,14 @@ function FromRight({ children, delay = 0, style }: { children: React.ReactNode; 
 }
 
 /* clean, human eyebrow — small cyan dot + sentence case (no tracked caps) */
+function PulseDot() {
+  return (
+    <span style={{ position: 'relative', width: 8, height: 8, flexShrink: 0 }}>
+      <span className="status-pulse" style={{ position: 'absolute', inset: 0, borderRadius: 999, background: ACCENT, opacity: 0.6 }} />
+      <span style={{ position: 'absolute', inset: 0, borderRadius: 999, background: ACCENT }} />
+    </span>
+  )
+}
 function Tag({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (
     <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, ...style }}>
@@ -238,7 +248,8 @@ function Nav({ goto, active }: { goto: (id: string) => void; active: string }) {
 const CURRENTLY = [
   'reachable. always. especially for the complex problems.',
   'building, breaking, fixing, shipping.',
-  'shipping at Macro Rides.',
+  'open to what\'s next.',
+  'owning products end to end, spec to prod.',
   'turning AI demos into production systems.',
   'always up for a coffee and a good chat.',
   'probably planning the next trek.',
@@ -246,7 +257,7 @@ const CURRENTLY = [
 const HERO_STATS: [string, string][] = [
   ['7+', 'years shipping'],
   ['5', 'companies'],
-  ['1', 'startup co-founded'],
+  ['8x', 'faster page loads'],
   ['500K+', 'users served'],
 ]
 function Hero() {
@@ -265,7 +276,10 @@ function Hero() {
     <section id="top" style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 'clamp(80px,10vh,110px) clamp(20px,4vw,60px) clamp(50px,7vh,80px)' }}>
       <div style={{ position: 'relative' }}>
         <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.7 }} style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginBottom: 'clamp(10px,1.6vh,18px)', marginLeft: 4 }}>
-          <Tag>Senior Software Engineer · Co-founder at Macro Rides</Tag>
+          <Tag>Senior Full Stack Engineer · Product-minded, full ownership</Tag>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: grot, fontWeight: 700, fontSize: 13, color: ACCENT }}>
+            <PulseDot /> Open to new roles
+          </span>
           <span style={{ fontFamily: grot, fontWeight: 600, fontSize: 13, color: MUTE }}>Dubai, UAE · {time || '··:··'} local</span>
         </motion.div>
         <h1 style={{ margin: 0 }}>
@@ -502,7 +516,7 @@ function About() {
           <Tag style={{ marginBottom: 16 }}>The trajectory</Tag>
           {TRAJECTORY.map(([y, l, s]) => (
             <motion.div key={l} whileHover={{ x: 6 }} transition={{ duration: 0.3, ease }} style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap', padding: 'clamp(11px,1.6vh,16px) 0', borderTop: '1px solid rgba(234,238,243,0.12)' }}>
-              <span style={{ fontFamily: grot, fontWeight: 700, fontSize: 'clamp(12px,0.95vw,14px)', color: ACCENT, minWidth: 'clamp(88px,7.5vw,116px)', flexShrink: 0 }}>{y}</span>
+              <span style={{ fontFamily: grot, fontWeight: 700, fontSize: 'clamp(12px,0.95vw,14px)', color: ACCENT, minWidth: 'clamp(140px,10vw,170px)', flexShrink: 0 }}>{y}</span>
               <span style={{ ...MEGA, fontSize: 'clamp(22px,2.4vw,42px)' }}>{l}</span>
               <span style={{ ...label, fontSize: 10, color: MUTE, marginLeft: 'auto', textAlign: 'right', letterSpacing: '0.12em' }}>{s}</span>
             </motion.div>
@@ -749,27 +763,56 @@ function SocialRow({ s }: { s: (typeof SOCIALS)[number] }) {
     </motion.a>
   )
 }
-/* message composer — opens the visitor's mail app today; swap handleSend to a Slack webhook later */
+/* message composer — posts to the Cloudflare Pages Function at /api/contact, which relays to Slack */
+type SendStatus = 'idle' | 'sending' | 'sent' | 'error'
+const SEND_HINT: Record<SendStatus, string> = {
+  idle: 'Lands straight in my Slack. I usually reply the same day.',
+  sending: 'Sending...',
+  sent: 'Got it. I will get back to you soon.',
+  error: 'That did not go through. Email me at pookus7790@gmail.com instead.',
+}
+const SEND_LABEL: Record<SendStatus, string> = { idle: 'Send →', sending: 'Sending...', sent: 'Sent ✓', error: 'Retry →' }
+
 function QuickMessage() {
   const [msg, setMsg] = useState('')
   const [from, setFrom] = useState('')
-  const send = () => {
-    if (!msg.trim()) return
-    const subject = encodeURIComponent('Hi Pooja — from your portfolio')
-    const body = encodeURIComponent(`${msg.trim()}\n\n— reply to: ${from.trim() || 'no email left'}`)
-    window.location.href = `mailto:pookus7790@gmail.com?subject=${subject}&body=${body}`
+  const [trap, setTrap] = useState('')
+  const [status, setStatus] = useState<SendStatus>('idle')
+  const canSend = msg.trim().length > 0 && status !== 'sending'
+
+  const send = async () => {
+    if (!canSend) return
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ message: msg.trim(), email: from.trim(), company: trap }),
+      })
+      if (!res.ok) throw new Error(`status ${res.status}`)
+      setStatus('sent')
+      setMsg('')
+      setFrom('')
+    } catch {
+      setStatus('error')
+    }
   }
+
   return (
     <div>
-      <textarea className="pk-input" data-hover rows={3} placeholder="Type your message here..." value={msg} onChange={(e) => setMsg(e.target.value)} style={{ marginBottom: 10 }} />
+      <textarea className="pk-input" data-hover rows={3} maxLength={2000} placeholder="Type your message here..." value={msg}
+        onChange={(e) => { setMsg(e.target.value); if (status === 'sent') setStatus('idle') }} style={{ marginBottom: 10 }} />
+      {/* honeypot: hidden from people, filled by bots */}
+      <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden value={trap} onChange={(e) => setTrap(e.target.value)}
+        style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }} />
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-        <input className="pk-input" data-hover type="email" placeholder="Your email, so I can reply" value={from} onChange={(e) => setFrom(e.target.value)} style={{ flex: '1 1 200px' }} />
-        <motion.button onClick={send} data-hover whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}
-          style={{ fontFamily: grot, fontWeight: 700, fontSize: 14, color: BG, background: ACCENT, border: 0, borderRadius: 12, padding: '13px 26px', cursor: 'pointer', opacity: msg.trim() ? 1 : 0.55 }}>
-          Send →
+        <input className="pk-input" data-hover type="email" maxLength={200} placeholder="Your email, so I can reply" value={from} onChange={(e) => setFrom(e.target.value)} style={{ flex: '1 1 200px' }} />
+        <motion.button onClick={send} disabled={!canSend} data-hover whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}
+          style={{ fontFamily: grot, fontWeight: 700, fontSize: 14, color: BG, background: ACCENT, border: 0, borderRadius: 12, padding: '13px 26px', cursor: canSend ? 'pointer' : 'default', opacity: canSend || status === 'sent' ? 1 : 0.55 }}>
+          {SEND_LABEL[status]}
         </motion.button>
       </div>
-      <div style={{ fontFamily: grot, fontWeight: 600, fontSize: 11, color: MUTE, marginTop: 10 }}>Opens in your mail app, lands straight in my inbox. Slack quick-chat coming soon.</div>
+      <div role="status" style={{ fontFamily: grot, fontWeight: 600, fontSize: 11, color: status === 'error' ? '#F28B82' : status === 'sent' ? ACCENT : MUTE, marginTop: 10 }}>{SEND_HINT[status]}</div>
     </div>
   )
 }
@@ -781,11 +824,8 @@ function Contact() {
       <div style={{ width: '100%', maxWidth: 1500, margin: '0 auto' }}>
         <Reveal>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 'clamp(14px,2.4vh,26px)' }}>
-            <span style={{ position: 'relative', width: 8, height: 8 }}>
-              <span className="status-pulse" style={{ position: 'absolute', inset: 0, borderRadius: 999, background: ACCENT, opacity: 0.6 }} />
-              <span style={{ position: 'absolute', inset: 0, borderRadius: 999, background: ACCENT }} />
-            </span>
-            <span style={{ fontFamily: grot, fontWeight: 600, fontSize: 13.5, color: 'rgba(234,238,243,0.8)' }}>Always up for a good chat, coffee included</span>
+            <PulseDot />
+            <span style={{ fontFamily: grot, fontWeight: 600, fontSize: 13.5, color: 'rgba(234,238,243,0.8)' }}>Open to new opportunities, coffee chats welcome too</span>
           </div>
         </Reveal>
 
@@ -803,7 +843,7 @@ function Contact() {
                 <span style={{ display: 'grid', placeItems: 'center', width: 38, height: 38, borderRadius: 999, background: ACCENT, color: BG, fontFamily: grot, fontWeight: 700, fontSize: 13, flexShrink: 0 }}>PK</span>
                 <div>
                   <div style={{ background: 'rgba(234,238,243,0.07)', border: '1px solid rgba(234,238,243,0.12)', borderRadius: '4px 16px 16px 16px', padding: '12px 16px', fontFamily: sans, fontSize: 14.5, lineHeight: 1.5, color: INK, maxWidth: '42ch' }}>
-                    Building something interesting? Tell me about it. A hard problem, a wild idea, or honestly just a good coffee and a chat. I&apos;m in.
+                    I&apos;m open to what&apos;s next. Got a hard problem, a product that needs an owner, or a team that needs someone to lead from spec to production? Let&apos;s talk. Or just a good coffee and a chat. I&apos;m in.
                   </div>
                   <div style={{ fontFamily: grot, fontWeight: 600, fontSize: 11, color: MUTE, marginTop: 6 }}>Pooja · usually replies same day</div>
                 </div>
