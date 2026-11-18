@@ -15,6 +15,7 @@ const grot = "'Space Grotesk Variable', 'Inter Variable', sans-serif"
 const sans = "'Inter Variable', system-ui, sans-serif"
 const ease = [0.16, 1, 0.3, 1] as const
 const MEGA: React.CSSProperties = { fontFamily: disp, textTransform: 'uppercase', letterSpacing: '-0.005em', lineHeight: 0.84, margin: 0, fontWeight: 400 }
+const HEADLINE: React.CSSProperties = { ...MEGA, fontSize: 'clamp(38px,5.4vw,96px)', lineHeight: 0.92 }
 const label: React.CSSProperties = { fontFamily: grot, fontWeight: 600, fontSize: 12, letterSpacing: '0.22em', textTransform: 'uppercase' }
 
 /* ─── content, from the résumé ─── */
@@ -123,7 +124,6 @@ const CATS: [string, string[]][] = [
   ['Cloud / DevOps', ['AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Terraform', 'CI/CD']],
 ]
 const CORE = new Set(['React', 'Next.js', 'TypeScript', 'Node.js', 'Go', 'LLMs', 'RAG', 'LangChain', 'MCP', 'Hugging Face', 'OpenAI', 'Gemini', 'PostgreSQL', 'AWS', 'React Native', 'Mapbox GL'])
-const FLOW = ['React', 'Next.js', 'TypeScript', 'Node.js', 'Go', 'MCP', 'OpenAI', 'Gemini', 'PostgreSQL', 'Redis', 'AWS', 'Docker', 'Mapbox GL', 'React Native', 'Stripe']
 
 const UN = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=900&q=70`
 const PLAY = [
@@ -282,13 +282,12 @@ function Hero() {
           </span>
           <span style={{ fontFamily: grot, fontWeight: 600, fontSize: 13, color: MUTE }}>Dubai, UAE · {time || '··:··'} local</span>
         </motion.div>
-        <h1 style={{ margin: 0 }}>
-          <span style={{ display: 'block', overflow: 'hidden' }}>
-            <motion.span initial={{ y: '108%' }} animate={{ y: 0 }} transition={{ duration: 1, ease, delay: 0.15 }} style={{ ...MEGA, display: 'block', fontSize: 'clamp(74px,16.5vw,280px)' }}>Pooja</motion.span>
-          </span>
-          <span style={{ display: 'block', overflow: 'hidden' }}>
-            <motion.span initial={{ y: '108%' }} animate={{ y: 0 }} transition={{ duration: 1, ease, delay: 0.3 }} className="pk-sheen" style={{ ...MEGA, display: 'block', fontSize: 'clamp(74px,16.5vw,280px)', color: ACCENT }}>Kushwah</motion.span>
-          </span>
+        <h1 style={{ margin: 0, ...MEGA, fontSize: 'clamp(48px,8.2vw,148px)', lineHeight: 0.95 }}>
+          {['Pooja', 'Kushwah'].map((word, i) => (
+            <span key={word} style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom', marginRight: i === 0 ? '0.22em' : 0 }}>
+              <motion.span initial={{ y: '108%' }} animate={{ y: 0 }} transition={{ duration: 1, ease, delay: 0.15 + i * 0.15 }} style={{ display: 'block', color: i === 1 ? ACCENT : INK }}>{word}</motion.span>
+            </span>
+          ))}
         </h1>
       </div>
 
@@ -325,26 +324,6 @@ function Hero() {
         <motion.span animate={{ y: [0, 7, 0] }} transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }} style={{ display: 'inline-block', color: 'rgba(234,238,243,0.55)', fontSize: 18 }}>↓</motion.span>
       </motion.div>
     </section>
-  )
-}
-
-/* ─── kinetic marquee ─── */
-function Marquee({ items, accent = false, dur = 30 }: { items: string[]; accent?: boolean; dur?: number }) {
-  return (
-    <div style={{ position: 'relative', borderTop: '1px solid rgba(234,238,243,0.1)', borderBottom: '1px solid rgba(234,238,243,0.1)', padding: 'clamp(10px,1.8vh,20px) 0', overflow: 'hidden', background: accent ? ACCENT : 'rgba(9,12,18,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
-      <div style={{ display: 'inline-flex', whiteSpace: 'nowrap', animation: `pk-marquee ${dur}s linear infinite` }}>
-        {[0, 1].map((k) => (
-          <span key={k} aria-hidden={k === 1} style={{ display: 'inline-flex', flexShrink: 0 }}>
-            {items.map((w, i) => (
-              <span key={`${k}-${i}`} style={{ display: 'inline-flex', alignItems: 'center', flexShrink: 0 }}>
-                <span style={{ ...MEGA, fontSize: 'clamp(22px,4vw,52px)', color: accent ? BG : INK, padding: '0 clamp(16px,2.4vw,38px)' }}>{w}</span>
-                <span style={{ color: accent ? BG : ACCENT, fontSize: 'clamp(12px,1.4vw,20px)' }}>✦</span>
-              </span>
-            ))}
-          </span>
-        ))}
-      </div>
-    </div>
   )
 }
 
@@ -491,19 +470,14 @@ function Work() {
 /* ─── about: zoom statement + slide-in ─── */
 function About() {
   const isMobile = useIsMobile()
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const scale = useTransform(scrollYProgress, [0, 0.55], [0.82, 1.14])
-  const x = useTransform(scrollYProgress, [0, 0.55], ['0vw', '-3vw'])
 
   return (
-    <section id="about" ref={ref} style={{ position: 'relative', padding: 'clamp(70px,11vh,120px) clamp(20px,4vw,60px)', background: 'rgba(9,12,18,0.6)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', overflow: 'hidden' }}>
+    <section id="about" style={{ position: 'relative', padding: 'clamp(70px,11vh,120px) clamp(20px,4vw,60px)', background: 'rgba(9,12,18,0.6)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', overflow: 'hidden' }}>
       <Reveal><Tag style={{ marginBottom: 'clamp(14px,2vh,24px)' }}>The driver</Tag></Reveal>
 
-      {/* zooming statement — grows from the left as you scroll through */}
-      <motion.h2 style={{ scale, x, transformOrigin: 'left center', ...MEGA, fontSize: 'clamp(46px,10vw,220px)' }}>
-        I build what<br />engineers <span style={{ color: ACCENT }}>avoid.</span>
-      </motion.h2>
+      <Reveal>
+        <h2 style={HEADLINE}>I build what<br />engineers <span style={{ color: ACCENT }}>avoid.</span></h2>
+      </Reveal>
 
       {/* content that flies in from the right */}
       <div style={{ position: 'relative', marginTop: 'clamp(34px,6vh,72px)', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'minmax(0,1fr) minmax(0,1fr)', gap: isMobile ? '30px' : 'clamp(28px,5vw,80px)', alignItems: 'start' }}>
@@ -540,17 +514,13 @@ function About() {
 /* ─── stack: interactive split — hover a category, its tools appear large ─── */
 function Stack() {
   const isMobile = useIsMobile()
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const headScale = useTransform(scrollYProgress, [0, 0.35], [0.86, 1.06])
-  const headX = useTransform(scrollYProgress, [0, 0.35], ['0vw', '-2vw'])
   const [act, setAct] = useState(0)
   const items = CATS[act]?.[1] ?? CATS[0][1]
 
   return (
-    <section id="stack" ref={ref} style={{ position: 'relative', padding: 'clamp(70px,11vh,120px) clamp(20px,4vw,60px)', background: 'linear-gradient(180deg, rgba(9,12,18,0.58), rgba(11,20,32,0.72))', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', overflow: 'hidden' }}>
+    <section id="stack" style={{ position: 'relative', padding: 'clamp(70px,11vh,120px) clamp(20px,4vw,60px)', background: 'linear-gradient(180deg, rgba(9,12,18,0.58), rgba(11,20,32,0.72))', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', overflow: 'hidden' }}>
       <Reveal><Tag style={{ marginBottom: 12 }}>What I bring</Tag></Reveal>
-      <motion.h2 style={{ scale: headScale, x: headX, transformOrigin: 'left center', ...MEGA, fontSize: 'clamp(48px,9vw,180px)' }}>Lead. Architect. <span style={{ color: ACCENT }}>Ship.</span></motion.h2>
+      <Reveal><h2 style={HEADLINE}>Lead. Architect. <span style={{ color: ACCENT }}>Ship.</span></h2></Reveal>
 
       {/* mobile: accordion — tools expand right under the tapped category */}
       {isMobile ? (
@@ -926,7 +896,6 @@ export default function PortfolioExperience() {
         <Hero />
         <Work />
         <About />
-        <Marquee items={FLOW} accent dur={42} />
         <StackPlay />
         <Contact />
       </main>
