@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   publisher: 'Pooja Kushwah',
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'Pooja Kushwah · Senior Software Engineer · Full-Stack & AI',
+    title: 'Pooja Kushwah · Senior Full Stack Engineer · Full-Stack & AI',
     description:
       'Give me a problem no one wants to touch. I will ship it. 7+ years, 5 companies, 1 startup co-founded, 500K+ users served.',
     url: SITE,
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pooja Kushwah · Senior Software Engineer · Full-Stack & AI',
+    title: 'Pooja Kushwah · Senior Full Stack Engineer · Full-Stack & AI',
     description:
       'Give me a problem no one wants to touch. I will ship it. 7+ years, 5 companies, 1 startup co-founded, 500K+ users served.',
   },
@@ -79,6 +79,7 @@ const personJsonLd = {
     'React', 'Next.js', 'TypeScript', 'Node.js', 'Go', 'Python',
     'AI engineering', 'LLM integration', 'Model Context Protocol',
     'PostgreSQL', 'AWS', 'System design', 'React Native',
+    'Angular', 'Docker', 'Kubernetes',
   ],
   sameAs: [
     'https://www.linkedin.com/in/poojakushwah1402/',
@@ -93,7 +94,7 @@ const websiteJsonLd = {
   '@type': 'WebSite',
   name: 'Pooja Kushwah',
   url: SITE,
-  description: 'Portfolio of Pooja Kushwah, Senior Software Engineer in Dubai.',
+  description: 'Portfolio of Pooja Kushwah, Senior Full Stack Engineer in Dubai.',
 }
 
 export default function RootLayout({

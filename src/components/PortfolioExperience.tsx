@@ -28,27 +28,26 @@ const PROJECTS = [
     d: 'A property and channel-management platform, rebuilt for speed and AI.',
     hi: [
       'Cut page load from 7-8s to under 500ms via SSR, code splitting, profiling',
-      'AI property search: LLM APIs into a Next.js SSR frontend',
-      'AI-driven dynamic pricing dashboard in React + Recharts',
-      'ForumPay crypto payments; led cloud migration Azure → AWS',
+      'AI property search: LLM APIs into an Angular SSR frontend',
+      'ForumPay crypto payments alongside the existing gateway; AWS + Azure infra with Docker',
       'iCal sync across OTAs, with conflict resolution and real-time availability',
-      'Observability across services with Sentry and Grafana: errors, alerts, performance',
+      'Observability across services with Sentry, Prometheus and Grafana: errors, alerts, performance',
     ],
-    tech: ['Next.js', 'Node.js', 'Go', 'Django', 'AWS', 'Grafana'],
+    tech: ['Angular', 'TypeScript', 'Go', 'Python', 'AWS', 'Docker'],
   },
   {
     n: '02', t: 'Macro Rides', r: 'Co-founder & CTO', p: 'Sep 2024 → Feb 2025', b: '0 → 1', stat: '0→1',
     logo: '/logos/macrorides.jpg',
     grad: 'linear-gradient(135deg,#41A566 0%,#0C331D 100%)',
-    tag: 'e-rickshaw ride-hailing · DPIIT recognised · Delhi',
+    tag: 'e-rickshaw ride-hailing + ride-sharing · DPIIT recognised · Delhi',
     d: 'India-focused e-rickshaw ride-hailing, built and shipped from absolute zero.',
     hi: [
-      'Full MVP: React Native rider + driver apps on Node.js / PostgreSQL',
+      'Full MVP: React Native rider + driver apps, Next.js landing page, Node.js / PostgreSQL',
       'Real-time WebSocket dispatch, Redis caching, deployed on AWS',
       'Delhi Mobility Intelligence, a public dashboard on real transit data',
       'Cashfree, Maps API, SMS OTP; validated with real riders before any funding',
     ],
-    tech: ['React Native', 'Node.js', 'PostgreSQL', 'WebSocket', 'AWS'],
+    tech: ['React Native', 'Next.js', 'Node.js', 'PostgreSQL', 'Docker'],
   },
   {
     n: '03', t: 'group.one', r: 'Software Engineer', p: 'Apr 2022 → Dec 2024', b: '500K+ users', stat: '500K+',
@@ -57,12 +56,12 @@ const PROJECTS = [
     tag: 'AI-powered SaaS · website builder + e-commerce · Europe',
     d: 'AI-powered website builder and e-commerce serving European markets at scale.',
     hi: [
-      'React + TypeScript apps for 500K+ users across Europe (SSR / SSG)',
+      'React, TypeScript + Node.js webshop for 500K+ users across Europe',
       'LLM APIs + Model Context Protocol (MCP) for context-aware AI, in prod',
       'Payments (Stripe, PayPal), inventory, tax engine, automation',
       'Zero-bug release cycle with TDD; grew Jest coverage to 90%',
     ],
-    tech: ['React', 'TypeScript', 'MCP', 'Stripe', 'Jest'],
+    tech: ['React', 'TypeScript', 'Node.js', 'Stripe', 'MCP'],
   },
   {
     n: '04', t: 'BRIDGEi2i', r: 'Software Engineer', p: 'May 2021 → Apr 2022', b: 'analytics', stat: 'DATA',
@@ -71,10 +70,10 @@ const PROJECTS = [
     tag: 'AI-driven analytics consulting · now part of Accenture · India',
     d: 'Data-heavy dashboards and interactive visualisations for enterprise clients.',
     hi: [
-      'Data-heavy React dashboards and interactive visualisations',
+      'Role-based dashboards and interactive D3.js visualisations',
       'Analytics pipelines with permission-driven data access',
     ],
-    tech: ['React', 'D3.js', 'Analytics'],
+    tech: ['React', 'D3.js', 'Node.js', 'Docker', 'Kubernetes'],
   },
   {
     n: '05', t: 'Amdocs', r: 'Associate Software Engineer', p: 'Aug 2019 → May 2021', b: 'where it started', stat: '2019',
@@ -87,7 +86,7 @@ const PROJECTS = [
       'Shipped features across billing, CRM and service orchestration',
       'Enterprise-grade delivery for global clients, first years of production discipline',
     ],
-    tech: ['React', 'Node.js', 'CRM', 'Telecom'],
+    tech: ['React', 'Node.js', 'Express', 'CRM', 'Telecom'],
   },
 ] as const
 
@@ -116,7 +115,7 @@ const LEAD: [string, string][] = [
 ]
 
 const CATS: [string, string[]][] = [
-  ['Frontend', ['React', 'Next.js', 'TypeScript', 'Redux', 'Zustand', 'TanStack Query', 'React Native']],
+  ['Frontend', ['React', 'Next.js', 'Angular', 'TypeScript', 'Redux', 'Zustand', 'TanStack Query', 'React Native']],
   ['Backend', ['Node.js', 'Express', 'NestJS', 'Django', 'Go', 'GraphQL', 'WebSockets']],
   ['AI / LLMs', ['LLMs', 'RAG', 'LangChain', 'MCP', 'Hugging Face', 'Transformers', 'OpenAI', 'Gemini', 'Ollama', 'PyTorch', 'TensorFlow', 'AI/ML pipelines', 'Vector DBs', 'Pinecone', 'Notebooks', 'Anaconda', 'Claude Code', 'Cursor']],
   ['Data viz', ['D3.js', 'Recharts', 'Chart.js', 'Mapbox GL', 'H3.js', 'Real-time']],
@@ -257,7 +256,7 @@ const CURRENTLY = [
 const HERO_STATS: [string, string][] = [
   ['7+', 'years shipping'],
   ['5', 'companies'],
-  ['8x', 'faster page loads'],
+  ['14x', 'faster page loads'],
   ['500K+', 'users served'],
 ]
 function Hero() {
